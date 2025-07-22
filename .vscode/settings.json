@@ -1,0 +1,37 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Cafe-Arz brand color codes
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#feb703",
+    "activityBar.foreground": "#f40086",
+    "activityBar.inactiveForeground": "#21294d",
+    "titleBar.activeBackground": "#21294d",
+    "titleBar.activeForeground": "#feb703",
+    "statusBar.background": "#bfd8ff",
+    "statusBar.foreground": "#21294d"
+  }
+}
