@@ -74,6 +74,7 @@ const getDesignTokens = (mode: PaletteMode = "light") => ({
           background: {
             default: "#f4f6f8",
             paper: "#ffffff",
+            sidebar: "#141A21",
           },
           text: {
             primary: "#1c252e",

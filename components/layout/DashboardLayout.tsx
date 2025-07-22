@@ -12,7 +12,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         height: "100vh",
         flexDirection: "row",
         overflow: "hidden",
-        background: "cyan",
       }}
     >
       {!isMobile && <Sidebar variant="desktop" />}
