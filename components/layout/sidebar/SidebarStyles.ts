@@ -34,16 +34,26 @@ export const sidebarStyles = {
     color: active ? "primary.contrastText" : "text.secondary",
   }),
   childListItemButton: (isExpanded: boolean) => ({
-    textAlign: isExpanded ? "right" : "center",
-    my: isExpanded ? 0.5 : 0,
+    textAlign: "right",
+    my: 0.5,
     mr: 0,
-    py: isExpanded ? 0.8 : 0.1,
-    pr: isExpanded ? 5 : 1,
-    borderRadius: "8px",
+    py: 0.8,
+    pr: isExpanded ? 5 : 2,
+    pl: isExpanded ? 0 : 2,
+    borderRadius: 0,
+    "&:first-of-type": {
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+    },
+    "&:last-of-type": {
+      borderBottomLeftRadius: "8px",
+      borderBottomRightRadius: "8px",
+    },
     "&:hover": {
       bgcolor: "primary.main",
       color: "primary.contrastText",
     },
+    transition: "all 0.2s ease",
   }),
   activeChildListItemButton: {
     bgcolor: "none",

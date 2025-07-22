@@ -17,11 +17,11 @@ const ChildMenuItem = ({
     component={Link}
     href={item.path || "#"}
     sx={{
-      ...{ ...sidebarStyles.childListItemButton(isExpanded) },
+      ...sidebarStyles.childListItemButton(isExpanded),
       ...(active && sidebarStyles.activeChildListItemButton),
+      // justifyContent: isExpanded ? "flex-end" : "flex-start",
     }}
   >
-    {/* Curved corner connector */}
     {isExpanded && (
       <Box
         sx={{
