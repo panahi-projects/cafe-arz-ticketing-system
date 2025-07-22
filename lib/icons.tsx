@@ -145,6 +145,44 @@ export const icons = {
       </path>
     </svg>
   ),
+  chevronLeft: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="m15 6l-6 6l6 6"
+        opacity={opacity}
+      ></path>
+    </svg>
+  ),
+  chevronRight: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="m9 6l6 6l-6 6"
+        opacity={opacity}
+      ></path>
+    </svg>
+  ),
   chevronDown: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -219,4 +257,11 @@ const componentMap = Object.entries(icons).reduce((acc, [key, component]) => {
   return acc;
 }, {} as Record<string, React.FC<IconProps>>);
 
-export const { Calendar, ChevronUp, ChevronDown, Dinosaur } = componentMap;
+export const {
+  Calendar,
+  ChevronUp,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Dinosaur,
+} = componentMap;

@@ -5,9 +5,11 @@ import { ListItemIcon } from "@mui/material";
 const MenuItemIcon = ({
   icon,
   active,
+  isExpanded,
 }: {
   icon?: IconKey;
   active: boolean;
+  isExpanded: boolean;
 }) => {
   if (!icon) return null;
   const Icon = icons[icon] as any;
@@ -15,7 +17,8 @@ const MenuItemIcon = ({
     <ListItemIcon
       sx={{
         ...sidebarStyles.listItemIcon(active),
-        ...sidebarStyles.menuItm,
+        ...sidebarStyles.menuItem,
+        mx: isExpanded ? 0.8 : "auto",
       }}
     >
       <Icon />

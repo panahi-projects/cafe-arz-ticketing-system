@@ -1,18 +1,17 @@
-const connectorSize = 16;
-const horizontalOffset = 4;
-
 // Style constants
 export const sidebarStyles = {
-  root: {
+  root: (isExpanded: boolean) => ({
     bgcolor: "background.sidebar",
     color: "text.secondary",
-    minWidth: "280px",
-  },
-  list: {
-    p: 2,
-  },
+    width: isExpanded ? "280px" : "100px",
+    minWidth: isExpanded ? "280px" : "100px",
+    transition: "all 0.3s ease",
+    position: "relative",
+  }),
+  list: (isExpanded: boolean) => ({
+    p: isExpanded ? 2 : 0.7,
+  }),
   listItemButton: {
-    textAlign: "start",
     borderRadius: "8px",
     mb: 0.6,
     py: 0.8,
@@ -34,26 +33,28 @@ export const sidebarStyles = {
   listItemIcon: (active: boolean) => ({
     color: active ? "primary.contrastText" : "text.secondary",
   }),
-  childListItemButton: {
-    textAlign: "right",
-    my: 0.5,
+  childListItemButton: (isExpanded: boolean) => ({
+    textAlign: isExpanded ? "right" : "center",
+    my: isExpanded ? 0.5 : 0,
     mr: 0,
-    py: 0.8,
-    pr: 5,
-
+    py: isExpanded ? 0.8 : 0.1,
+    pr: isExpanded ? 5 : 1,
     borderRadius: "8px",
     "&:hover": {
       bgcolor: "primary.main",
       color: "primary.contrastText",
     },
-  },
+  }),
   activeChildListItemButton: {
     bgcolor: "none",
     color: "primary.contrastText",
   },
-  menuItm: {
+  menuItem: {
     px: 0,
     ml: 1,
     minWidth: 25,
   },
+  menuItemText: (isExpanded: boolean) => ({
+    fontSize: isExpanded ? 14 : 12,
+  }),
 };

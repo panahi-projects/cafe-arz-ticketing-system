@@ -1,9 +1,18 @@
 import { ListItemText, Typography } from "@mui/material";
+import { sidebarStyles } from "./SidebarStyles";
 
 // Sub-components
-const MenuItemText = ({ label }: { label: string }) => (
+const MenuItemText = ({
+  label,
+  isExpanded,
+}: {
+  label: string;
+  isExpanded: boolean;
+}) => (
   <ListItemText>
-    <Typography fontSize={14}>{label}</Typography>
+    <Typography fontSize={sidebarStyles.menuItemText(isExpanded).fontSize}>
+      {label}
+    </Typography>
   </ListItemText>
 );
 

@@ -77,6 +77,7 @@ const getDesignTokens = (mode: PaletteMode = "light") => ({
             sidebar: "#141A21",
           },
           text: {
+            dark: "#04050d",
             primary: "#1c252e",
             secondary: "#637381",
           },
