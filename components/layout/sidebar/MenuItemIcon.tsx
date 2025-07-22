@@ -1,5 +1,5 @@
 import { IconKey, icons } from "@/lib/icons";
-import { sidebarStyles } from "../SidebarStyles";
+import { sidebarStyles } from "./SidebarStyles";
 import { ListItemIcon } from "@mui/material";
 
 const MenuItemIcon = ({
@@ -12,7 +12,12 @@ const MenuItemIcon = ({
   if (!icon) return null;
   const Icon = icons[icon] as any;
   return (
-    <ListItemIcon sx={sidebarStyles.listItemIcon(active)}>
+    <ListItemIcon
+      sx={{
+        ...sidebarStyles.listItemIcon(active),
+        ...sidebarStyles.menuItm,
+      }}
+    >
       <Icon />
     </ListItemIcon>
   );

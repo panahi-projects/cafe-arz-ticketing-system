@@ -1,3 +1,6 @@
+const connectorSize = 16;
+const horizontalOffset = 4;
+
 // Style constants
 export const sidebarStyles = {
   root: {
@@ -11,8 +14,8 @@ export const sidebarStyles = {
   listItemButton: {
     textAlign: "start",
     borderRadius: "8px",
-    mb: 0.5,
-    py: 0.5,
+    mb: 0.6,
+    py: 0.8,
     "&:hover": {
       bgcolor: "primary.light",
       color: "primary.contrastText",
@@ -33,15 +36,24 @@ export const sidebarStyles = {
   }),
   childListItemButton: {
     textAlign: "right",
-    pl: 4,
-    pr: 9,
+    my: 0.5,
+    mr: 0,
+    py: 0.8,
+    pr: 5,
+
+    borderRadius: "8px",
     "&:hover": {
-      bgcolor: "primary.light",
+      bgcolor: "primary.main",
       color: "primary.contrastText",
     },
   },
   activeChildListItemButton: {
-    bgcolor: "primary.main",
+    bgcolor: "none",
     color: "primary.contrastText",
+  },
+  menuItm: {
+    px: 0,
+    ml: 1,
+    minWidth: 25,
   },
 };

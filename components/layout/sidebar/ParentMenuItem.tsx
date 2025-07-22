@@ -1,7 +1,7 @@
 import { MenuItem } from "@/configs/menu-items";
 import { ListItemButton } from "@mui/material";
 import Link from "next/link";
-import { sidebarStyles } from "../SidebarStyles";
+import { sidebarStyles } from "./SidebarStyles";
 import MenuItemIcon from "./MenuItemIcon";
 import MenuItemText from "./MenuItemText";
 
@@ -23,6 +23,7 @@ const ParentMenuItem = ({
     sx={{
       ...sidebarStyles.listItemButton,
       ...(active && sidebarStyles.activeListItemButton),
+      gap: -1,
     }}
   >
     <MenuItemIcon icon={item.icon} active={active} />

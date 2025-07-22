@@ -1,7 +1,7 @@
 import { MenuItem } from "@/configs/menu-items";
-import { ListItemButton } from "@mui/material";
+import { Box, ListItemButton } from "@mui/material";
 import Link from "next/link";
-import { sidebarStyles } from "../SidebarStyles";
+import { sidebarStyles } from "./SidebarStyles";
 import MenuItemText from "./MenuItemText";
 
 const ChildMenuItem = ({
@@ -19,6 +19,23 @@ const ChildMenuItem = ({
       ...(active && sidebarStyles.activeChildListItemButton),
     }}
   >
+    {/* Curved corner connector */}
+    <Box
+      sx={{
+        position: "absolute",
+        top: "40%",
+        right: "20px",
+        width: 16,
+        height: 16,
+        border: "2px solid",
+        borderColor: "text.secondary",
+        borderTop: "none",
+        borderLeft: "none",
+        borderRadius: "0 0 8px 0",
+        transform: "translateY(-50%)",
+        pointerEvents: "none",
+      }}
+    />
     <MenuItemText label={item.label} />
   </ListItemButton>
 );
