@@ -26,9 +26,9 @@ export const sidebarStyles = {
   },
   activeListItemButton: {
     bgcolor: "primary.900",
-    color: "primary.contrastText",
+    color: "primary.200",
     "& .MuiListItemIcon-root": {
-      color: "primary.contrastText",
+      color: "primary.200",
     },
   },
   listItemIcon: (active: boolean) => ({

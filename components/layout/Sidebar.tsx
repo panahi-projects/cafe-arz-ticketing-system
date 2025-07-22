@@ -59,6 +59,7 @@ const Sidebar = ({
                 active={active}
                 onClick={() => handleToggle(item.key)}
                 hasChildren={hasChildren}
+                isOpen={open[item.key]}
               />
 
               {hasChildren && (
@@ -73,7 +74,7 @@ const Sidebar = ({
                         content: '""',
                         position: "absolute",
                         top: -10,
-                        bottom: "calc(50% - 15px)",
+                        bottom: "calc(0% + 25px)",
                         right: "20px",
                         width: "2px",
                         bgcolor: "text.secondary",

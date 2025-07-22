@@ -1,30 +1,33 @@
 // lib/icons.tsx
 import type { SVGProps } from "react";
 
-export type IconProps = SVGProps<SVGSVGElement>;
+export type IconProps = SVGProps<SVGSVGElement> & {
+  size?: number;
+  opacity?: number;
+};
 
 export const icons = {
-  calendar: (props: IconProps) => (
+  calendar: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="currentColor"
       {...props}
     >
       <path
         d="M22 10H2v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3zM7 8a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v4a1 1 0 0 1-1 1m10 0a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v4a1 1 0 0 1-1 1"
-        opacity={0.5}
+        opacity={opacity}
       />
       <path d="M19 4h-1v3a1 1 0 0 1-2 0V4H8v3a1 1 0 0 1-2 0V4H5a3 3 0 0 0-3 3v3h20V7a3 3 0 0 0-3-3" />
     </svg>
   ),
-  chart: (props: IconProps) => (
+  chart: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       {...props}
     >
@@ -35,15 +38,15 @@ export const icons = {
       <path
         fill="currentColor"
         d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3M8 17a1 1 0 0 1-2 0v-4a1 1 0 0 1 2 0Zm5 0a1 1 0 0 1-2 0V7a1 1 0 0 1 2 0Zm5 0a1 1 0 0 1-2 0v-6a1 1 0 0 1 2 0Z"
-        opacity={0.5}
+        opacity={opacity}
       ></path>
     </svg>
   ),
-  rocket: (props: IconProps) => (
+  rocket: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       {...props}
     >
@@ -54,22 +57,22 @@ export const icons = {
       <path
         fill="currentColor"
         d="M22.601 2.062a1 1 0 0 0-.713-.713A11.25 11.25 0 0 0 10.47 4.972L7.266 8.776a12.94 12.94 0 0 0-2.924 6.71a1 1 0 0 0 .284.837l3.1 3.1a1 1 0 0 0 .708.293l.086-.004a11.85 11.85 0 0 0 6.79-2.86l3.664-3.368A11.2 11.2 0 0 0 22.6 2.062Zm-5.867 6.754a1.5 1.5 0 1 1 1.5-1.5a1.5 1.5 0 0 1-1.5 1.5"
-        opacity={0.5}
+        opacity={opacity}
       ></path>
     </svg>
   ),
-  paypal: (props: IconProps) => (
+  paypal: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       {...props}
     >
       <path
         fill="currentColor"
         d="M8.882 19.94a1 1 0 0 1-.988.843H4.062a1.533 1.533 0 0 1-1.515-1.785l2.59-16.406A1.89 1.89 0 0 1 7 1h6.214c2.56 0 4.408.62 5.492 1.843a4.96 4.96 0 0 1 1.08 4.395c-.021.135-.043.27-.075.418c-.823 4.218-3.655 6.457-8.186 6.457H9.807zm-4.36-.628l-.001.006zM7.113 2.897v.002z"
-        opacity={0.5}
+        opacity={opacity}
       ></path>
       <path
         fill="currentColor"
@@ -77,18 +80,18 @@ export const icons = {
       ></path>
     </svg>
   ),
-  lockAlt: (props: IconProps) => (
+  lockAlt: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       {...props}
     >
       <path
         fill="currentColor"
         d="M9 7a3 3 0 1 1 6 0v2h2V7A5 5 0 0 0 7 7v2h2zm3 11a1 1 0 0 1-1-1v-3a1 1 0 1 1 2 0v3a1 1 0 0 1-1 1"
-        opacity={0.5}
+        opacity={opacity}
       ></path>
       <path
         fill="currentColor"
@@ -96,18 +99,18 @@ export const icons = {
       ></path>
     </svg>
   ),
-  telegramAlt: (props: IconProps) => (
+  telegramAlt: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       {...props}
     >
       <path
         fill="currentColor"
         d="M17.688 21.744a2.02 2.02 0 0 1-1.242-.427l-4.03-3.122l-2.702 2.983a1 1 0 0 1-1.698-.383l-2.02-6.682l-3.626-1.26a2.042 2.042 0 0 1-.103-3.818L20.187 1.8a2.042 2.042 0 0 1 2.771 2.295L19.695 20.11a2.054 2.054 0 0 1-2.008 1.633Z"
-        opacity={0.5}
+        opacity={opacity}
       ></path>
       <path
         fill="currentColor"
@@ -115,11 +118,11 @@ export const icons = {
       ></path>
     </svg>
   ),
-  chevronUp: (props: IconProps) => (
+  chevronUp: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       {...props}
     >
@@ -142,11 +145,11 @@ export const icons = {
       </path>
     </svg>
   ),
-  chevronDown: (props: IconProps) => (
+  chevronDown: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       {...props}
     >
@@ -159,6 +162,7 @@ export const icons = {
         strokeLinejoin="round"
         strokeWidth={2}
         d="M12 16l-7 -7M12 16l7 -7"
+        opacity={opacity}
       >
         <animate
           fill="freeze"
@@ -169,7 +173,7 @@ export const icons = {
       </path>
     </svg>
   ),
-  dinosaur: (props: IconProps) => (
+  dinosaur: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
     <svg
       width="55px"
       height="86px"
