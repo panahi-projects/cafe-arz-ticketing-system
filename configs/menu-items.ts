@@ -17,31 +17,31 @@ export const menuItems: MenuItem[] = [
   {
     key: "reports",
     label: "گزارشات",
-    icon: "calendar",
+    icon: "chart",
     children: null,
   },
   {
     key: "orders",
     label: "سفارشات",
-    icon: "calendar",
+    icon: "rocket",
     children: null,
   },
   {
     key: "cash",
     label: "نقد درآمد ارزی",
-    icon: "calendar",
+    icon: "paypal",
     children: null,
   },
   {
     key: "confirmDocs",
     label: "تایید مدارک",
-    icon: "calendar",
+    icon: "lockAlt",
     children: null,
   },
   {
     key: "tickets",
     label: "تیکت ها",
-    icon: "calendar",
+    icon: "telegramAlt",
     children: [
       { key: "ticket-list", label: "لیست تیکت ها" },
       { key: "new-ticket", label: "ثبت تیکت جدید" },

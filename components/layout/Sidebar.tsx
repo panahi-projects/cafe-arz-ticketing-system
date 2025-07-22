@@ -37,7 +37,7 @@ const Sidebar = ({
                 sx={{
                   textAlign: "start",
                 }}
-                onClick={() => handleToggle(item.key)}
+                onClick={() => (item.children ? handleToggle(item.key) : null)}
               >
                 {item.icon && (
                   <ListItemIcon>
