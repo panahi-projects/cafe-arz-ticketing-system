@@ -18,6 +18,7 @@ import ChildMenuItem from "./sidebar/ChildMenuItem";
 import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
 import { MenuItem } from "@/types";
+import Logo from "./Logo";
 
 const Sidebar = ({
   variant = "desktop",
@@ -137,8 +138,8 @@ const Sidebar = ({
         }}
       >
         {/* Logo */}
-        <Box sx={{ p: 2, position: "relative", flexShrink: 0 }}>
-          <Typography>Logo</Typography>
+        <Box sx={{ p: 2, position: "relative", flexShrink: 0, pr: 3 }}>
+          <Logo isExpanded={isExpanded} />
         </Box>
 
         {/* Scrollable menu container */}

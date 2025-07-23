@@ -17,6 +17,7 @@ import { useState } from "react";
 import ChildMenuItem from "./sidebar/ChildMenuItem";
 import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
+import Logo from "./Logo";
 
 const MobileDrawer = ({ open, onClose }: MobileDrawerProps) => {
   const pathname = usePathname();
@@ -59,7 +60,7 @@ const MobileDrawer = ({ open, onClose }: MobileDrawerProps) => {
           p: 2,
         }}
       >
-        <Typography variant="h6">Logo</Typography>
+        <Logo isExpanded={true} />
         <IconButton
           onClick={onClose}
           sx={{

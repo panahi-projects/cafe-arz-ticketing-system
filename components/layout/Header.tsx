@@ -33,9 +33,9 @@ const Header = () => {
         color="inherit"
         elevation={0}
         sx={{
-          borderBottom: "1px solid #e0e0e0",
-          bgcolor: "background.paper",
+          bgcolor: "background.default",
           width: "100%",
+          boxShadow: 0,
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>

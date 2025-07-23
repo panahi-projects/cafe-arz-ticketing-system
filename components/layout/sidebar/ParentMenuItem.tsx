@@ -1,9 +1,9 @@
-import { ListItemButton } from "@mui/material";
+import { Box, ListItemButton } from "@mui/material";
 import Link from "next/link";
 import { sidebarStyles } from "./SidebarStyles";
 import MenuItemIcon from "./MenuItemIcon";
 import MenuItemText from "./MenuItemText";
-import { ChevronDown, ChevronUp } from "@/lib/icons";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "@/lib/icons";
 import { MenuItem } from "@/types";
 
 const ParentMenuItem = ({
@@ -35,16 +35,35 @@ const ParentMenuItem = ({
       transition: "all 0.3s ease",
       gap: 0,
       px: isExpanded ? 1.5 : 0,
+      position: "relative",
     }}
   >
     <MenuItemIcon icon={item.icon} active={active} isExpanded={isExpanded} />
     <MenuItemText label={item.label} isExpanded={isExpanded} />
-    {item.children &&
+
+    {isExpanded &&
+      item.children &&
       (isOpen ? (
         <ChevronUp size={20} opacity={1} />
       ) : (
         <ChevronDown size={20} opacity={1} />
       ))}
+
+    {!isExpanded && item.children && (
+      <Box
+        sx={{
+          position: "absolute",
+          left: 1,
+          top: 15,
+        }}
+      >
+        {isOpen ? (
+          <ChevronRight size={20} opacity={1} />
+        ) : (
+          <ChevronLeft size={20} opacity={1} />
+        )}
+      </Box>
+    )}
   </ListItemButton>
 );
 

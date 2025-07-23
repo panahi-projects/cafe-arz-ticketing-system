@@ -1,5 +1,7 @@
 import { icons } from "@/lib/icons";
 import { SVGProps } from "react";
+import { ImageProps } from "next/image";
+import { BoxProps } from "@mui/material";
 
 export interface MobileDrawerProps {
   open: boolean;
@@ -19,4 +21,11 @@ export interface MenuItem {
   path?: string;
   icon?: IconKey;
   children?: MenuItem[] | null;
+}
+
+export interface LogoProps extends BoxProps {
+  isExpanded: boolean;
+  textLogoProps?: Partial<ImageProps>;
+  iconLogoProps?: Partial<ImageProps>;
+  transitionDuration?: number;
 }
