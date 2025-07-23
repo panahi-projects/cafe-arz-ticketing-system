@@ -16,7 +16,7 @@ const ParentMenuItem = ({
 }: {
   item: MenuItem;
   active: boolean;
-  onClick: () => void;
+  onClick: (e: any) => void;
   hasChildren: boolean;
   isOpen: boolean;
   isExpanded: boolean;

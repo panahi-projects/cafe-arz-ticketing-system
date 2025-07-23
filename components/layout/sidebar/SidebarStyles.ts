@@ -7,9 +7,12 @@ export const sidebarStyles = {
     minWidth: isExpanded ? "280px" : "100px",
     transition: "all 0.3s ease",
     position: "relative",
+    height: "100vh",
+    overflow: "visible",
   }),
   list: (isExpanded: boolean) => ({
     p: isExpanded ? 2 : 0.7,
+    overflow: "visible",
   }),
   listItemButton: {
     borderRadius: "8px",

@@ -2,20 +2,22 @@
 
 import { menuItems } from "@/configs";
 import { MenuItem } from "@/configs/menu-items";
+import { ChevronLeft, ChevronRight } from "@/lib/icons";
 import {
   Box,
   Collapse,
   Grow,
   IconButton,
   List,
+  Paper,
+  Popper,
   Typography,
 } from "@mui/material";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChildMenuItem from "./sidebar/ChildMenuItem";
 import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
-import { ChevronLeft, ChevronRight } from "@/lib/icons";
 
 const Sidebar = ({
   variant = "desktop",
@@ -25,9 +27,28 @@ const Sidebar = ({
   const pathname = usePathname();
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [currentSubmenu, setCurrentSubmenu] = useState<string | null>(null);
+  const parentRefs = useRef<Record<string, HTMLElement | null>>({});
+  const popperRef = useRef<HTMLDivElement>(null);
 
-  const handleToggle = (key: string) => {
+  const handleToggle = (key: string, event: React.MouseEvent<HTMLElement>) => {
+    if (!isExpanded) {
+      // Toggle behavior - close if clicking the same menu
+      if (currentSubmenu === key) {
+        setAnchorEl(null);
+        setCurrentSubmenu(null);
+      } else {
+        setAnchorEl(event.currentTarget);
+        setCurrentSubmenu(key);
+      }
+    }
     setOpen((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleCloseSubmenu = () => {
+    setAnchorEl(null);
+    setCurrentSubmenu(null);
   };
 
   const isActive = (item: MenuItem) => {
@@ -37,6 +58,30 @@ const Sidebar = ({
     }
     return false;
   };
+
+  // Close submenu when path changes
+  useEffect(() => {
+    handleCloseSubmenu();
+  }, [pathname]);
+
+  // Close submenu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        popperRef.current &&
+        !popperRef.current.contains(event.target as Node) &&
+        anchorEl &&
+        !anchorEl.contains(event.target as Node)
+      ) {
+        handleCloseSubmenu();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [anchorEl]);
 
   // Automatically expand parent if a child is active
   useEffect(() => {
@@ -51,15 +96,24 @@ const Sidebar = ({
     setOpen(initiallyOpen);
   }, [pathname]);
 
+  useEffect(() => {
+    const isSidebarExpanded = localStorage.getItem("sidebar-expanded");
+    setIsExpanded(isSidebarExpanded == "true" ? true : false);
+  }, []);
+
   return (
-    <Box
-      sx={{
-        ...sidebarStyles.root(isExpanded),
-      }}
-    >
+    <Box sx={{ position: "relative" }}>
+      {/* Toggle button */}
       <Box sx={{ position: "absolute", top: 8, left: -16, zIndex: 10 }}>
         <IconButton
-          onClick={() => setIsExpanded((prev) => !prev)}
+          onClick={() => {
+            setIsExpanded((prev) => !prev);
+            localStorage.setItem(
+              "sidebar-expanded",
+              JSON.stringify(!isExpanded)
+            );
+            handleCloseSubmenu();
+          }}
           sx={{
             color: "text.dark",
             bgcolor: "white",
@@ -71,48 +125,84 @@ const Sidebar = ({
           {isExpanded ? <ChevronRight /> : <ChevronLeft />}
         </IconButton>
       </Box>
-      <Box sx={{ p: 2 /* logo & toggle */ }}>
-        <Typography>Logo</Typography>
-      </Box>
-      <List sx={sidebarStyles.list(isExpanded)}>
-        {menuItems.map((item: MenuItem) => {
-          const active = isActive(item);
-          const hasChildren = !!item.children;
+      <Box
+        sx={{
+          ...sidebarStyles.root(isExpanded),
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          overflow: "hidden",
+          position: "relative",
+        }}
+      >
+        {/* Logo */}
+        <Box sx={{ p: 2, position: "relative", flexShrink: 0 }}>
+          <Typography>Logo</Typography>
+        </Box>
 
-          return (
-            <Box key={item.key}>
-              <ParentMenuItem
-                item={item}
-                active={active}
-                onClick={() => handleToggle(item.key)}
-                hasChildren={hasChildren}
-                isOpen={open[item.key]}
-                isExpanded={isExpanded}
-              />
+        {/* Scrollable menu container */}
+        <Box
+          sx={{
+            flex: 1,
+            overflowY: "auto",
+            overflowX: "hidden",
+            "&::-webkit-scrollbar": {
+              width: "6px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "rgba(255,255,255,0.3)",
+              borderRadius: "3px",
+            },
+            "&::-webkit-scrollbar-track": {
+              backgroundColor: "transparent",
+            },
+          }}
+        >
+          <List sx={sidebarStyles.list(isExpanded)}>
+            {menuItems.map((item: MenuItem) => {
+              const active = isActive(item);
+              const hasChildren = !!item.children;
 
-              {hasChildren &&
-                (() => {
-                  const Wrapper = isExpanded ? Collapse : Grow;
+              return (
+                <Box
+                  key={item.key}
+                  ref={(el: any) => (parentRefs.current[item.key] = el)}
+                  sx={{
+                    position: "relative",
+                  }}
+                >
+                  <ParentMenuItem
+                    item={item}
+                    active={active}
+                    onClick={(e: any) => handleToggle(item.key, e)}
+                    hasChildren={hasChildren}
+                    isOpen={open[item.key]}
+                    isExpanded={isExpanded}
+                  />
 
-                  return (
-                    <Wrapper in={open[item.key]} timeout={300} unmountOnExit>
+                  {/* Expanded mode submenu */}
+                  {hasChildren && isExpanded && (
+                    <Collapse
+                      in={open[item.key]}
+                      timeout={300}
+                      unmountOnExit
+                      onExited={() => handleCloseSubmenu()}
+                    >
                       <Box
                         sx={{
                           position: "relative",
                           ml: 0,
                           mr: 1,
                           pr: 0,
-                          "&::before": isExpanded
-                            ? {
-                                content: '""',
-                                position: "absolute",
-                                top: -10,
-                                bottom: "calc(0% + 25px)",
-                                right: "20px",
-                                width: "2px",
-                                bgcolor: "text.secondary",
-                              }
-                            : {},
+                          "&::before": {
+                            content: '""',
+                            position: "absolute",
+                            top: -10,
+                            bottom: "calc(0% + 25px)",
+                            right: "20px",
+                            width: "2px",
+                            bgcolor: "text.secondary",
+                          },
                         }}
                       >
                         <List
@@ -120,20 +210,7 @@ const Sidebar = ({
                           disablePadding
                           sx={{
                             position: "relative",
-                            right: isExpanded ? 0 : "calc(100%)",
-                            width: isExpanded ? "100%" : "150px",
-                            bgcolor: isExpanded
-                              ? "transparent"
-                              : "background.sidebar",
-                            boxShadow: isExpanded
-                              ? "none"
-                              : "2px 2px 5px rgba(0,0,0,0.2)",
-                            borderRadius: isExpanded ? 0 : "8px",
-                            ml: isExpanded ? 0 : "8px",
-                            zIndex: 999,
-                            transform: isExpanded
-                              ? "translateY(0)"
-                              : "translateY(-50%)",
+                            width: "100%",
                           }}
                         >
                           {item.children &&
@@ -147,13 +224,63 @@ const Sidebar = ({
                             ))}
                         </List>
                       </Box>
-                    </Wrapper>
-                  );
-                })()}
-            </Box>
-          );
-        })}
-      </List>
+                    </Collapse>
+                  )}
+                </Box>
+              );
+            })}
+          </List>
+        </Box>
+
+        {/* Floating submenu (collapsed mode) */}
+        <Popper
+          open={!isExpanded && Boolean(anchorEl) && Boolean(currentSubmenu)}
+          anchorEl={anchorEl}
+          placement="right-start"
+          sx={{ zIndex: 9999 }}
+          modifiers={[
+            {
+              name: "offset",
+              options: {
+                offset: [0, 0],
+              },
+            },
+          ]}
+          transition
+        >
+          {({ TransitionProps }) => (
+            <Grow {...TransitionProps} timeout={250}>
+              <Paper
+                ref={popperRef}
+                elevation={3}
+                sx={{
+                  ml: 1,
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                  transformOrigin: "left top",
+                  bgcolor: "background.sidebar",
+                  color: "text.secondary",
+                }}
+              >
+                {currentSubmenu && (
+                  <List sx={{ width: "200px", p: 0 }}>
+                    {menuItems
+                      .find((item) => item.key === currentSubmenu)
+                      ?.children?.map((sub: MenuItem) => (
+                        <ChildMenuItem
+                          key={sub.key}
+                          item={sub}
+                          active={sub.path === pathname}
+                          isExpanded={false}
+                        />
+                      ))}
+                  </List>
+                )}
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </Box>
     </Box>
   );
 };

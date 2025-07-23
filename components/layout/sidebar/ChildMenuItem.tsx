@@ -19,7 +19,6 @@ const ChildMenuItem = ({
     sx={{
       ...sidebarStyles.childListItemButton(isExpanded),
       ...(active && sidebarStyles.activeChildListItemButton),
-      // justifyContent: isExpanded ? "flex-end" : "flex-start",
     }}
   >
     {isExpanded && (
