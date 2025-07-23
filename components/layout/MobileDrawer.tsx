@@ -10,14 +10,13 @@ import {
   Drawer,
   IconButton,
   List,
-  Typography,
 } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import Logo from "./Logo";
 import ChildMenuItem from "./sidebar/ChildMenuItem";
 import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
-import Logo from "./Logo";
 
 const MobileDrawer = ({ open, onClose }: MobileDrawerProps) => {
   const pathname = usePathname();

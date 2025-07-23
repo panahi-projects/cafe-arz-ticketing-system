@@ -1,4 +1,4 @@
-import { GlobalConfigs } from "@/types/globalTypes";
+import { GlobalConfigs } from "@/types";
 
 const globalConfigs: GlobalConfigs = {
   main: {
@@ -21,8 +21,6 @@ const globalConfigs: GlobalConfigs = {
       ogType: "website",
       canonicalUrl: "https://cafearz.com/",
       robots: "index, follow, nocache",
-      viewport: "width=device-width, initial-scale=1",
-      themeColor: "#141A21",
     },
   },
 };

@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   },
   description: globalConfigs.main?.description,
   keywords: globalConfigs.main?.keywords,
-  themeColor: globalConfigs.main.metaData?.themeColor,
-  viewport: globalConfigs.main.metaData?.viewport,
   metadataBase: new URL(globalConfigs.main.metaData?.canonicalUrl || ""),
 
   // Open Graph
@@ -42,14 +40,6 @@ export const metadata: Metadata = {
     type: "website",
   },
 
-  // Twitter
-  twitter: {
-    card: globalConfigs.main.metaData?.twitterCard,
-    title: globalConfigs.main.metaData?.ogTitle,
-    description: globalConfigs.main.metaData?.ogDescription,
-    images: [globalConfigs.main.metaData?.ogImage || "/"],
-  },
-
   // Icons
   icons: {
     icon: globalConfigs.main.metaData?.favicon || "/favicon.ico",
@@ -59,7 +49,7 @@ export const metadata: Metadata = {
   },
 
   // Other
-  manifest: globalConfigs.main.metaData?.manifest,
+  manifest: globalConfigs.main.metaData?.manifest || "",
 };
 
 export default function RootLayout({

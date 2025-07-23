@@ -264,6 +264,7 @@ export const icons = {
       width={size}
       height={size}
       viewBox="0 0 24 24"
+      {...props}
     >
       <path
         fill="currentColor"
@@ -288,6 +289,7 @@ export const icons = {
       width={size}
       height={size}
       viewBox={`0 0 ${size} ${size}`}
+      {...props}
     >
       <path
         fill="currentColor"
@@ -306,6 +308,7 @@ export const icons = {
       width={size}
       height={size}
       viewBox="0 0 24 24"
+      {...props}
     >
       <path
         fill="currentColor"
@@ -324,6 +327,7 @@ export const icons = {
       width={size}
       height={size}
       viewBox="0 0 24 24"
+      {...props}
     >
       <path
         fill="currentColor"
@@ -340,6 +344,7 @@ export const icons = {
       width={size}
       height={size}
       viewBox="0 0 24 24"
+      {...props}
     >
       <path
         fill="currentColor"

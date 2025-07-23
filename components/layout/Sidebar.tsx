@@ -2,6 +2,7 @@
 
 import { menuItems } from "@/configs";
 import { ChevronLeft, ChevronRight } from "@/lib/icons";
+import { MenuItem } from "@/types";
 import {
   Box,
   Collapse,
@@ -10,15 +11,13 @@ import {
   List,
   Paper,
   Popper,
-  Typography,
 } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import Logo from "./Logo";
 import ChildMenuItem from "./sidebar/ChildMenuItem";
 import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
-import { MenuItem } from "@/types";
-import Logo from "./Logo";
 
 const Sidebar = () => {
   const pathname = usePathname();
