@@ -8,10 +8,12 @@ const ChildMenuItem = ({
   item,
   active,
   isExpanded,
+  onClick,
 }: {
   item: MenuItem;
   active: boolean;
   isExpanded: boolean;
+  onClick?: () => void;
 }) => (
   <ListItemButton
     component={Link}
@@ -20,6 +22,7 @@ const ChildMenuItem = ({
       ...sidebarStyles.childListItemButton(isExpanded),
       ...(active && sidebarStyles.activeChildListItemButton),
     }}
+    onClick={onClick}
   >
     {isExpanded && (
       <Box
