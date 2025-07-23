@@ -1,19 +1,10 @@
 "use client";
-import { CacheProvider } from "@emotion/react";
-import {
-  createTheme,
-  ThemeProvider as MuiThemeProvider,
-} from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
-import React, {
-  useMemo,
-  createContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
-import createCache from "@emotion/cache";
 import { createCustomTheme } from "@/configs";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 
 type Props = {
   children: ReactNode;
