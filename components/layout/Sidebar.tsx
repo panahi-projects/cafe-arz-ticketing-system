@@ -120,6 +120,7 @@ const Sidebar = ({
             "&:hover": {
               bgcolor: "gray",
             },
+            boxShadow: 2,
           }}
         >
           {isExpanded ? <ChevronRight /> : <ChevronLeft />}

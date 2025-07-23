@@ -11,7 +11,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         display: "flex",
         height: "100vh",
         flexDirection: "row",
-        overflow: "visible",
+        overflow: "hidden",
       }}
     >
       {!isMobile && <Sidebar variant="desktop" />}
@@ -20,19 +20,16 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           flex: 1,
           display: "flex",
           flexDirection: "column",
-          overflow: "visible",
+          overflow: "hidden",
           width: { xs: "100%" },
-          background: "yellow",
         }}
       >
         <Header />
         <Box
           component={"main"}
           sx={{
-            background: "purple",
             flex: 1,
             overflowY: "auto",
-            flexDirection: "row",
           }}
         >
           {children}
