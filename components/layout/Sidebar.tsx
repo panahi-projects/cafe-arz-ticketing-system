@@ -20,11 +20,7 @@ import { sidebarStyles } from "./sidebar/SidebarStyles";
 import { MenuItem } from "@/types";
 import Logo from "./Logo";
 
-const Sidebar = ({
-  variant = "desktop",
-}: {
-  variant?: "desktop" | "mobile";
-}) => {
+const Sidebar = () => {
   const pathname = usePathname();
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [isExpanded, setIsExpanded] = useState<boolean>(true);

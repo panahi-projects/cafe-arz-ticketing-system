@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         overflow: "hidden",
       }}
     >
-      {!isMobile && <Sidebar variant="desktop" />}
+      {!isMobile && <Sidebar />}
       <Box
         sx={{
           flex: 1,
