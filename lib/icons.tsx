@@ -1,10 +1,5 @@
 // lib/icons.tsx
-import type { SVGProps } from "react";
-
-export type IconProps = SVGProps<SVGSVGElement> & {
-  size?: number;
-  opacity?: number;
-};
+import { IconProps } from "@/types";
 
 export const icons = {
   calendar: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
@@ -135,6 +130,7 @@ export const icons = {
         strokeLinejoin="round"
         strokeWidth={2}
         d="M12 8l-7 7M12 8l7 7"
+        opacity={opacity}
       >
         <animate
           fill="freeze"
@@ -211,7 +207,7 @@ export const icons = {
       </path>
     </svg>
   ),
-  dinosaur: ({ size = 24, opacity = 0.5, ...props }: IconProps) => (
+  dinosaur: ({ opacity = 0.5, ...props }: IconProps) => (
     <svg
       width="55px"
       height="86px"
@@ -227,6 +223,7 @@ export const icons = {
         fill="none"
         fillRule="evenodd"
         transform="translate(13.000000, 0.000000)"
+        opacity={opacity}
       >
         <polygon
           id="Path"
@@ -262,8 +259,6 @@ export const icons = {
     </svg>
   ),
 };
-
-export type IconKey = keyof typeof icons;
 
 // Create PascalCase aliases dynamically (runtime usage)
 const pascalCase = (str: string) =>

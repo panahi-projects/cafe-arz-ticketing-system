@@ -1,13 +1,5 @@
-// lib/menuItems.ts
-import type { IconKey } from "@/lib/icons";
+import { MenuItem } from "@/types";
 
-export interface MenuItem {
-  key: string;
-  label: string;
-  path?: string;
-  icon?: IconKey;
-  children?: MenuItem[] | null;
-}
 export const menuItems: MenuItem[] = [
   {
     key: "dashboard",

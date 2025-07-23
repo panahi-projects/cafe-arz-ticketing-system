@@ -1,6 +1,10 @@
 "use client";
 import { CacheProvider } from "@emotion/react";
-import { createEmotionCache } from "@mui/material-nextjs/v13-pagesRouter";
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 import React, {
   useMemo,
   createContext,
@@ -8,9 +12,8 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { ThemeProvider as MuiThemeProvider } from "@mui/material";
-import { createCustomTheme } from "./theme";
-import { CssBaseline } from "@mui/material";
+import createCache from "@emotion/cache";
+import { createCustomTheme } from "@/configs";
 
 type Props = {
   children: ReactNode;
@@ -23,15 +26,20 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const createEmotionCache = () => {
+  return createCache({ key: "css", prepend: true });
+};
+
 const ThemeProvider = ({ children, defaultMode = "light" }: Props) => {
   const [mode, setMode] = useState<"light" | "dark">(defaultMode);
   const [mounted, setMounted] = useState(false);
-  const cache = useMemo(() => createEmotionCache(), []);
+
+  const cache = createEmotionCache();
+
   const theme = useMemo(() => createCustomTheme(mode), [mode]);
 
   useEffect(() => {
     setMounted(true);
-    // Get saved theme from localStorage if available
     const savedMode = localStorage.getItem("theme-mode") as
       | "light"
       | "dark"
@@ -43,7 +51,6 @@ const ThemeProvider = ({ children, defaultMode = "light" }: Props) => {
 
   useEffect(() => {
     if (mounted) {
-      // Save theme preference to localStorage
       localStorage.setItem("theme-mode", mode);
     }
   }, [mode, mounted]);
@@ -51,14 +58,12 @@ const ThemeProvider = ({ children, defaultMode = "light" }: Props) => {
   const contextValue = useMemo(
     () => ({
       mode,
-      toggleMode: () => {
-        setMode((prev) => (prev === "light" ? "dark" : "light"));
-      },
+      toggleMode: () =>
+        setMode((prev) => (prev === "light" ? "dark" : "light")),
     }),
     [mode]
   );
 
-  // Don't render until mounted on client
   if (!mounted) {
     return null;
   }

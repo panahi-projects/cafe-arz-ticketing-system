@@ -1,7 +1,6 @@
 "use client";
 
 import { menuItems } from "@/configs";
-import { MenuItem } from "@/configs/menu-items";
 import { ChevronLeft, ChevronRight } from "@/lib/icons";
 import {
   Box,
@@ -18,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
 import ChildMenuItem from "./sidebar/ChildMenuItem";
 import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
+import { MenuItem } from "@/types";
 
 const Sidebar = ({
   variant = "desktop",
@@ -167,7 +167,9 @@ const Sidebar = ({
               return (
                 <Box
                   key={item.key}
-                  ref={(el: any) => (parentRefs.current[item.key] = el)}
+                  ref={(el: HTMLDivElement | null) => {
+                    parentRefs.current[item.key] = el;
+                  }}
                   sx={{
                     position: "relative",
                   }}
@@ -175,7 +177,9 @@ const Sidebar = ({
                   <ParentMenuItem
                     item={item}
                     active={active}
-                    onClick={(e: any) => handleToggle(item.key, e)}
+                    onClick={(e: React.MouseEvent<HTMLElement>) =>
+                      handleToggle(item.key, e)
+                    }
                     hasChildren={hasChildren}
                     isOpen={open[item.key]}
                     isExpanded={isExpanded}

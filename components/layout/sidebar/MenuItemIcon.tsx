@@ -1,6 +1,7 @@
-import { IconKey, icons } from "@/lib/icons";
+import { icons } from "@/lib/icons";
 import { sidebarStyles } from "./SidebarStyles";
 import { ListItemIcon } from "@mui/material";
+import { IconKey } from "@/types";
 
 const MenuItemIcon = ({
   icon,
@@ -12,7 +13,7 @@ const MenuItemIcon = ({
   isExpanded: boolean;
 }) => {
   if (!icon) return null;
-  const Icon = icons[icon] as any;
+  const Icon = icons[icon];
   return (
     <ListItemIcon
       sx={{

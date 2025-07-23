@@ -2,12 +2,12 @@
 
 import {
   AppBar,
-  Toolbar,
-  IconButton,
   Avatar,
+  Box,
+  IconButton,
   Menu,
   MenuItem,
-  Box,
+  Toolbar,
   useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
@@ -67,7 +67,7 @@ const Header = () => {
             <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
               <Avatar
                 alt="User"
-                src="/avatar.jpg"
+                src="/assets/images/avatar.png"
                 sx={{ width: 32, height: 32 }}
               />
             </IconButton>

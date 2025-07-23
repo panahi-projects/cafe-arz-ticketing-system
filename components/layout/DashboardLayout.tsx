@@ -1,7 +1,7 @@
 "use client";
 import { Box, useMediaQuery } from "@mui/material";
-import Sidebar from "./Sidebar";
 import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useMediaQuery("(max-width:768px)");

@@ -1,10 +1,10 @@
-import { MenuItem } from "@/configs/menu-items";
 import { ListItemButton } from "@mui/material";
 import Link from "next/link";
 import { sidebarStyles } from "./SidebarStyles";
 import MenuItemIcon from "./MenuItemIcon";
 import MenuItemText from "./MenuItemText";
 import { ChevronDown, ChevronUp } from "@/lib/icons";
+import { MenuItem } from "@/types";
 
 const ParentMenuItem = ({
   item,
@@ -16,7 +16,7 @@ const ParentMenuItem = ({
 }: {
   item: MenuItem;
   active: boolean;
-  onClick: (e: any) => void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
   hasChildren: boolean;
   isOpen: boolean;
   isExpanded: boolean;

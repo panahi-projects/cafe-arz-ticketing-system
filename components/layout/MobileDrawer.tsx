@@ -1,27 +1,22 @@
 "use client";
 
-import {
-  Drawer,
-  Box,
-  List,
-  Divider,
-  IconButton,
-  Typography,
-  Collapse,
-} from "@mui/material";
-import { ChevronLeft, Close } from "@/lib/icons";
 import { menuItems } from "@/configs";
-import { MenuItem } from "@/configs/menu-items";
+import { Close } from "@/lib/icons";
+import { MenuItem, MobileDrawerProps } from "@/types";
+import {
+  Box,
+  Collapse,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  Typography,
+} from "@mui/material";
 import { usePathname } from "next/navigation";
-import ParentMenuItem from "./sidebar/ParentMenuItem";
-import ChildMenuItem from "./sidebar/ChildMenuItem";
 import { useState } from "react";
+import ChildMenuItem from "./sidebar/ChildMenuItem";
+import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
-
-interface MobileDrawerProps {
-  open: boolean;
-  onClose: () => void;
-}
 
 const MobileDrawer = ({ open, onClose }: MobileDrawerProps) => {
   const pathname = usePathname();

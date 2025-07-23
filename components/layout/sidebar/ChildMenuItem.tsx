@@ -1,8 +1,8 @@
-import { MenuItem } from "@/configs/menu-items";
+import { MenuItem } from "@/types";
 import { Box, ListItemButton } from "@mui/material";
 import Link from "next/link";
-import { sidebarStyles } from "./SidebarStyles";
 import MenuItemText from "./MenuItemText";
+import { sidebarStyles } from "./SidebarStyles";
 
 const ChildMenuItem = ({
   item,
