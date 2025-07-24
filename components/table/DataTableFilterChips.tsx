@@ -8,7 +8,7 @@ type Props = {
 
 const DataTableFilterChips = ({ filters, onRemove }: Props) => {
   return (
-    <Box display="flex" gap={1} flexWrap="wrap" mb={2}>
+    <Box display="flex" gap={1} flexWrap="wrap">
       {filters.map((filter, idx) => (
         <Chip
           key={idx}
@@ -16,6 +16,7 @@ const DataTableFilterChips = ({ filters, onRemove }: Props) => {
           onDelete={onRemove ? () => onRemove(filter) : undefined}
           color="primary"
           variant="filled"
+          size="small"
         />
       ))}
     </Box>

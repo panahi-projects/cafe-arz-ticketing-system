@@ -3,22 +3,27 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 type Props = {
-  children?: ReactNode; // filters passed from parent
+  children?: ReactNode;
 };
 
 const DataTableToolbar = ({ children }: Props) => {
   return (
     <Box
       display="flex"
+      flexDirection={{ xs: "column", sm: "row" }}
       justifyContent="space-between"
-      alignItems="center"
-      mb={2}
+      alignItems={{ xs: "flex-start", sm: "center" }}
+      gap={{ xs: 1, sm: 0 }}
     >
       <Box display="flex" alignItems="center" gap={1}>
-        <IconButton color="primary">(Y) FilterListIcon</IconButton>
-        <Typography fontWeight={600}>فیلترها</Typography>
+        <IconButton color="primary" size="small">
+          (Y) FilterListIcon
+        </IconButton>
+        <Typography fontWeight={600} fontSize={{ xs: 14, sm: 16 }}>
+          فیلترها
+        </Typography>
       </Box>
-      <Box display="flex" gap={2} flexWrap="wrap">
+      <Box display="flex" gap={1} flexWrap="wrap">
         {children}
       </Box>
     </Box>
