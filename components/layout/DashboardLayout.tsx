@@ -30,6 +30,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           sx={{
             flex: 1,
             overflowY: "auto",
+            p: 4,
           }}
         >
           {children}

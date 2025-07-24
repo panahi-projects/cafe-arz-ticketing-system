@@ -26,9 +26,6 @@ describe("Real API Integration Tests", () => {
 
       // Validate filters structure if needed
       expect(Array.isArray(ticketResponse.filters)).toBe(true);
-
-      // Log the response for debugging
-      console.log("API Response:", ticketResponse);
     } catch (error) {
       // Enhanced error handling with TypeScript type guards
       if (axios.isAxiosError(error)) {
