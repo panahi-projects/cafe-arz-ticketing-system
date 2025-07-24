@@ -1,11 +1,6 @@
 "use client";
 import { Box, Chip } from "@mui/material";
-
-type SummaryItem = {
-  label: string;
-  count: number;
-  color?: "default" | "primary" | "secondary" | "error" | "warning" | "success";
-};
+import { SummaryItem } from "./DataTable";
 
 const DataTableSummary = ({ items }: { items: SummaryItem[] }) => {
   return (

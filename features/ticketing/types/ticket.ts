@@ -60,7 +60,7 @@ export interface TicketReply {
 }
 
 export interface TicketStatus {
-  key: string;
+  key: "NoAnswer" | "Pending" | "Answered" | "Resolved";
   label: string;
 }
 
@@ -81,6 +81,7 @@ export interface Ticket {
     updated_at: DateInfo;
   };
   priority: TicketPriority;
+  department?: string;
   fk_department: Department;
   fk_order_id?: string | null;
   fk_sender_id: number;

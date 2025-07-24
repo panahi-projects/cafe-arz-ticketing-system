@@ -1,35 +1,41 @@
 "use client";
 
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
   Box,
   CircularProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
 } from "@mui/material";
 import { ReactNode } from "react";
-import DataTablePagination from "./DataTablePagination";
-import DataTableToolbar from "./DataTableToolbar";
-import DataTableSummary from "./DataTableSummary";
 import DataTableFilterChips from "./DataTableFilterChips";
+import DataTablePagination from "./DataTablePagination";
+import DataTableSummary from "./DataTableSummary";
+import DataTableToolbar from "./DataTableToolbar";
 
-type Column = {
-  id: string;
+export type Column<T> = {
+  id: keyof T & string;
   label: string;
-  render?: (row: any) => ReactNode;
+  render?: (row: T) => ReactNode;
 };
 
-type Props<T = any> = {
-  columns: Column[];
+export type SummaryItem = {
+  label: string;
+  count: number;
+  color?: "default" | "primary" | "secondary" | "error" | "warning" | "success"; // or use: `SystemStyleObject` or theme-based type if you're using strict MUI typings
+};
+
+type Props<T> = {
+  columns: Column<T>[];
   rows: T[];
   page: number;
   total: number;
   onPageChange?: (page: number) => void;
   filters?: ReactNode;
-  summaryItems?: { label: string; count: number; color?: any }[];
+  summaryItems?: SummaryItem[];
   appliedFilters?: string[];
   rowsPerPage?: number;
   onRemoveFilter?: (filter: string) => void;
@@ -50,23 +56,41 @@ const DataTable = <T,>({
   loading = false,
 }: Props<T>) => {
   return (
-    <Paper elevation={1} sx={{ p: 2 }}>
+    <Paper elevation={1} sx={{ borderRadius: 4 }}>
       {/* 1. Filters */}
-      <DataTableToolbar>{filters}</DataTableToolbar>
+      <Box sx={{ p: 2 }}>
+        <DataTableToolbar>{filters}</DataTableToolbar>
+      </Box>
 
       {/* 2. Summary tags */}
-      {summaryItems && <DataTableSummary items={summaryItems} />}
+      <Box sx={{ p: 2 }}>
+        {summaryItems && <DataTableSummary items={summaryItems} />}
+      </Box>
 
       {/* 3. Applied filters */}
-      {appliedFilters?.length && (
-        <DataTableFilterChips
-          filters={appliedFilters}
-          onRemove={onRemoveFilter}
-        />
-      )}
+      <Box sx={{ p: 2 }}>
+        {appliedFilters?.length && (
+          <DataTableFilterChips
+            filters={appliedFilters}
+            onRemove={onRemoveFilter}
+          />
+        )}
+      </Box>
 
       {/* 4. Table */}
-      <Table>
+      <Table
+        sx={{
+          "& .MuiTableCell-root": {
+            textAlign: "right", // Right-align all table cells
+          },
+          "& .MuiTableHead-root .MuiTableCell-root": {
+            color: "text.secondary",
+            fontSize: "12px",
+            pb: 0.5,
+            border: 0,
+          },
+        }}
+      >
         <TableHead>
           <TableRow>
             {columns.map((col) => (
@@ -83,10 +107,22 @@ const DataTable = <T,>({
             </TableRow>
           ) : rows && rows.length > 0 ? (
             rows.map((row, i) => (
-              <TableRow key={i}>
+              <TableRow
+                key={i}
+                sx={{
+                  backgroundColor:
+                    i % 2 === 1 ? "background.paper" : "background.default",
+                  "&:hover": {
+                    backgroundColor: "gray.200", // Darker gray on hover
+                  },
+                }}
+              >
                 {columns.map((col) => (
-                  <TableCell key={col.id}>
-                    {col.render ? col.render(row) : (row as any)[col.id]}
+                  <TableCell
+                    key={col.id}
+                    sx={{ border: 0, fontWeight: "600", fontSize: 12 }}
+                  >
+                    {col.render ? col.render(row) : String(row[col.id])}
                   </TableCell>
                 ))}
               </TableRow>
