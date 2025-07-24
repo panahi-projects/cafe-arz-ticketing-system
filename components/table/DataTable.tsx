@@ -120,7 +120,7 @@ const DataTable = <T,>({
                 {columns.map((col) => (
                   <TableCell
                     key={col.id}
-                    sx={{ border: 0, fontWeight: "600", fontSize: 12 }}
+                    sx={{ border: 0, fontWeight: "600", fontSize: 12, py: 4 }}
                   >
                     {col.render ? col.render(row) : String(row[col.id])}
                   </TableCell>

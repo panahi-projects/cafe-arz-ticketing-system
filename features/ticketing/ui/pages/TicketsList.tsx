@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import React, { useState, useMemo } from "react";
 import TicketStatusChip from "../components/TicketStatusChip";
-import { Ticket, TicketStatus } from "../../types";
+import { Ticket, TicketStatus, UserInfo } from "../../types";
+import TicketUserInfo from "../components/TicketUserInfo";
 
 const TicketsList = () => {
   const [page, setPage] = useState(1);
@@ -21,7 +22,9 @@ const TicketsList = () => {
     {
       id: "user",
       label: "مشخصات کاربر",
-      render: (row) => row.user?.name || "-",
+      render: (row) => {
+        return <TicketUserInfo user={row.user as Partial<UserInfo>} />;
+      },
     },
     {
       id: "department",

@@ -39,8 +39,11 @@ export interface UserInfo {
   };
   balance: number;
   verify: {
-    mobile: boolean;
-    email: boolean;
+    mobile?: boolean;
+    email?: boolean;
+    credit?: boolean;
+    phone?: boolean;
+    national?: boolean;
   };
   level: string;
 }
