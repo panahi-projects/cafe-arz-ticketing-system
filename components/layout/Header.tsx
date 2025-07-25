@@ -4,7 +4,6 @@ import {
   AppBar,
   Avatar,
   Box,
-  BoxProps,
   IconButton,
   Menu,
   MenuItem,
@@ -12,34 +11,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
+import HeaderMenu from "./HeaderMenu";
 import MobileDrawer from "./MobileDrawer";
-import { Archive, Bag, Bell, Card, Cart } from "@/lib/icons";
-
-function Item(props: BoxProps) {
-  const { sx, ...other } = props;
-  return (
-    <Box
-      sx={[
-        () => ({
-          p: 0.5,
-          pb: 0,
-          m: 1,
-          borderRadius: 2,
-          fontSize: "0.875rem",
-          fontWeight: "700",
-          cursor: "pointer",
-          border: "1px solid",
-          borderColor: "background.default",
-          "&:hover": {
-            borderColor: "grey.300",
-          },
-        }),
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      {...other}
-    />
-  );
-}
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -90,29 +63,7 @@ const Header = () => {
               </IconButton>
             )}
 
-            <Box
-              sx={{
-                color: "text.secondary",
-                display: "grid",
-                gridTemplateColumns: "repeat(5, 1fr)",
-              }}
-            >
-              <Item>
-                <Archive />
-              </Item>
-              <Item sx={{ color: "text.dark" }}>
-                <Bag />
-              </Item>
-              <Item>
-                <Bell />
-              </Item>
-              <Item>
-                <Card />
-              </Item>
-              <Item>
-                <Cart />
-              </Item>
-            </Box>
+            {!isMobile && <HeaderMenu />}
           </Box>
 
           {/* Left avatar */}

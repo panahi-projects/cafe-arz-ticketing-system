@@ -17,6 +17,7 @@ import Logo from "./Logo";
 import ChildMenuItem from "./sidebar/ChildMenuItem";
 import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
+import HeaderMenu from "./HeaderMenu";
 
 const MobileDrawer = ({ open, onClose }: MobileDrawerProps) => {
   const pathname = usePathname();
@@ -69,6 +70,15 @@ const MobileDrawer = ({ open, onClose }: MobileDrawerProps) => {
           <Close />
         </IconButton>
       </Box>
+      <HeaderMenu
+        sx={{
+          gap: 0,
+        }}
+        itemsSx={{
+          border: 0,
+          color: "text.secondary",
+        }}
+      />
       <Divider />
       <Box
         sx={{
