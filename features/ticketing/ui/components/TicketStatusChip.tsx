@@ -20,10 +20,10 @@ const TicketStatusChip = ({
   variant = "default",
 }: TicketStatusBadgeProps) => {
   const statusColors = {
-    Answered: { bg: "success.100", text: "success.dark" },
-    NoAnswer: { bg: "error.100", text: "error.dark" },
-    Pending: { bg: "warning.100", text: "warning.dark" },
-    Resolved: { bg: "primary.100", text: "primary.dark" },
+    ANSWERED: { bg: "success.100", text: "success.dark" },
+    NOANSWER: { bg: "error.100", text: "error.dark" },
+    PENDING: { bg: "warning.100", text: "warning.dark" },
+    RESOLVED: { bg: "primary.100", text: "primary.dark" },
   };
   return (
     <Chip

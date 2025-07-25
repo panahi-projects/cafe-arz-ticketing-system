@@ -18,7 +18,10 @@ describe("TicketService", () => {
 
       const result = await service.getTickets({ page: 1 });
       expect(result).toEqual([mockTicket]);
-      expect(mockRepository.getTickets).toHaveBeenCalledWith({ page: 1 });
+      expect(mockRepository.getTickets).toHaveBeenCalledWith(
+        { page: 1 },
+        undefined
+      );
     });
 
     it("should propagate repository errors", async () => {

@@ -63,7 +63,7 @@ export interface TicketReply {
 }
 
 export interface TicketStatus {
-  key: "NoAnswer" | "Pending" | "Answered" | "Resolved";
+  key: "NOANSWER" | "PENDING" | "ANSWERED" | "RESOLVED";
   label: string;
 }
 

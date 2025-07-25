@@ -23,12 +23,10 @@ export const useTickets = (page: number, pageSize: number, filters = {}) => {
     const fetchTickets = async () => {
       try {
         setLoading(true);
-        const tickets = await ticketService.getTickets({
-          page,
-          pageSize,
-          ...memoizedFilters,
-          signal: abortController.signal,
-        });
+        const tickets = await ticketService.getTickets(
+          { page, pageSize, ...memoizedFilters },
+          { signal: abortController.signal }
+        );
         setData({
           tickets: {
             data: tickets,

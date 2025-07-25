@@ -70,19 +70,19 @@ const TicketsList = () => {
         //! It should be changed whenever real data provided. e.g: row.status
         const statuses: TicketStatus[] = [
           {
-            key: "Answered",
+            key: "ANSWERED",
             label: "پاسخ داده شده",
           },
           {
-            key: "NoAnswer",
+            key: "NOANSWER",
             label: "بدون پاسخ",
           },
           {
-            key: "Pending",
+            key: "PENDING",
             label: "در حال بررسی",
           },
           {
-            key: "Resolved",
+            key: "RESOLVED",
             label: "حل شده",
           },
         ];
