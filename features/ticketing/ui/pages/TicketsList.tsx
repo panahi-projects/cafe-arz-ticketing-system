@@ -1,113 +1,68 @@
 "use client";
-import DataTable, { Column } from "@/components/table/DataTable";
-import { useTickets } from "@/features/ticketing/ui/hooks/useTickets";
-import { Eye } from "@/lib/icons";
-import {
-  Alert,
-  Box,
-  Button,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
-import React, { useState, useMemo } from "react";
-import TicketStatusChip from "../components/TicketStatusChip";
-import { Ticket, TicketStatus, UserInfo } from "../../types";
-import TicketUserInfo from "../components/TicketUserInfo";
+import { Alert, Box, CircularProgress } from "@mui/material";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo } from "react";
+import TicketListElement from "../components/TicketListElement";
+import { useTicketOperations } from "../hooks/useTicketOperations";
+
+// Default values
+const DEFAULT_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 20;
 
 const TicketsList = () => {
-  const [page, setPage] = useState(1);
-  const pageSize = 20;
-  const columns: Column<Ticket>[] = [
-    { id: "ticket_id", label: "شناسه" },
-    {
-      id: "user",
-      label: "مشخصات کاربر",
-      render: (row) => {
-        return <TicketUserInfo user={row.user as Partial<UserInfo>} />;
-      },
-    },
-    {
-      id: "department",
-      label: "دپارتمان",
-      render: (row) => row.department || "-",
-    },
-    {
-      id: "title",
-      label: "عنوان تیکت",
-      render: (row) => row.title || "پیام تستی",
-    },
-    {
-      id: "date",
-      label: "تاریخ",
-      render: (row) => (
-        <Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography fontSize={12} sx={{ color: "text.secondary" }}>
-              ثبت:{" "}
-            </Typography>
-            <Typography fontSize={12} sx={{ fontWeight: "700" }}>
-              {row.date?.created_at?.jalali || "15:11:21 1404/01/31"}
-            </Typography>
-          </Box>
-          <Box>
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <Typography fontSize={12} sx={{ color: "text.secondary" }}>
-                بروزرسانی:{" "}
-              </Typography>
-              <Typography fontSize={12} sx={{ fontWeight: "700" }}>
-                {row.date?.updated_at?.jalali || "15:11:21 1404/01/31"}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      id: "status",
-      label: "وضعیت",
-      render: () => {
-        //Generate sample value to see different status chips,
-        //! It should be changed whenever real data provided. e.g: row.status
-        const statuses: TicketStatus[] = [
-          {
-            key: "ANSWERED",
-            label: "پاسخ داده شده",
-          },
-          {
-            key: "NOANSWER",
-            label: "بدون پاسخ",
-          },
-          {
-            key: "PENDING",
-            label: "در حال بررسی",
-          },
-          {
-            key: "RESOLVED",
-            label: "حل شده",
-          },
-        ];
-        const randomIndex = Math.floor(Math.random() * statuses.length);
-        return <TicketStatusChip item={statuses[randomIndex] || ""} />;
-      },
-    },
-    {
-      id: "user_info",
-      label: "عملیات",
-      render: (row) => (
-        <Box sx={{ color: "text.dark" }}>
-          <Eye size={18} />
-        </Box>
-      ),
-    },
-  ];
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  // Memoize empty filters object
-  const filters = useMemo(() => ({}), []);
+  // Get params from URL or use defaults
+  const page = parseInt(searchParams.get("page") || DEFAULT_PAGE.toString());
+  const pageSize = parseInt(
+    searchParams.get("pageSize") || DEFAULT_PAGE_SIZE.toString()
+  );
 
-  const { data, loading, error } = useTickets(page, pageSize, filters);
+  // Parse filters from URL
+  const filters = useMemo(() => {
+    const params = Object.fromEntries(searchParams.entries());
+    const filterKeys = Object.keys(params).filter((key) =>
+      key.startsWith("filter_")
+    );
+
+    return filterKeys.reduce((acc, key) => {
+      const filterName = key.replace("filter_", "");
+      return { ...acc, [filterName]: params[key] };
+    }, {});
+  }, [searchParams]);
+
+  const { data, loading, error } = useTicketOperations().useTickets(
+    page,
+    pageSize,
+    filters
+  );
+
+  // Update URL when pagination or filters change
+  const updateUrlParams = (newPage: number, newFilters = filters) => {
+    const params = new URLSearchParams();
+
+    // Add pagination params
+    params.set("page", newPage.toString());
+    params.set("pageSize", pageSize.toString());
+
+    // Add filter params
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value) params.set(`filter_${key}`, String(value));
+    });
+
+    // Update URL without page reload
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
 
   const handlePageChange = (newPage: number) => {
-    setPage(newPage);
+    updateUrlParams(newPage);
+  };
+
+  // Example filter handler
+  const handleFilterChange = (filterName: string, value: string) => {
+    const newFilters = { ...filters, [filterName]: value };
+    updateUrlParams(DEFAULT_PAGE, newFilters); // Reset to first page when filters change
   };
 
   if (loading && !data) {
@@ -131,33 +86,15 @@ const TicketsList = () => {
   }
 
   return (
-    <Box position="relative">
-      <DataTable
-        columns={columns}
-        rows={data.tickets.data}
-        page={page}
-        rowsPerPage={pageSize}
-        total={data.tickets.total}
-        onPageChange={handlePageChange}
-        summaryItems={[
-          { label: "بدون پاسخ", count: 12, color: "error" },
-          { label: "در حال بررسی", count: 20, color: "warning" },
-          { label: "پاسخ داده شده", count: 24, color: "success" },
-        ]}
-        appliedFilters={["وضعیت: بدون پاسخ"]}
-        onRemoveFilter={(f) => console.log("remove filter", f)}
-        filters={
-          <>
-            <Button size="small" variant="outlined">
-              پاسخ داده نشده
-            </Button>
-            <Button size="small" variant="outlined">
-              در حال بررسی
-            </Button>
-          </>
-        }
-      />
-    </Box>
+    <TicketListElement
+      tickets={data.tickets.data}
+      page={data.tickets.current_page}
+      pageSize={data.tickets.per_page}
+      total={data.tickets.total}
+      handlePageChange={handlePageChange}
+      onFilterChange={handleFilterChange}
+      currentFilters={filters}
+    />
   );
 };
 

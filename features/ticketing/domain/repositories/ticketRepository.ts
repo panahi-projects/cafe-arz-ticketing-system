@@ -1,8 +1,8 @@
-import { Ticket } from "../../types";
+import { TicketListResponse } from "../../types";
 
 export interface TicketRepository {
   getTickets(
     params?: any,
     config?: { signal?: AbortSignal }
-  ): Promise<Ticket[]>;
+  ): Promise<TicketListResponse>;
 }

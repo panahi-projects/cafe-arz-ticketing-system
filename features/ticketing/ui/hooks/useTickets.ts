@@ -1,61 +1,54 @@
-import { useState, useEffect, useMemo } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import { TicketListResponse } from "../../types";
-import { TicketRepositoryImpl } from "../../infrastructure/repositories/ticketRepositoryImpl";
-import { TicketService } from "../../domain/services/ticketService";
+import { useTicketService } from "../../context/TicketServiceContext";
 
 export const useTickets = (page: number, pageSize: number, filters = {}) => {
+  const ticketService = useTicketService();
   const [data, setData] = useState<TicketListResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // Initialize service and repository
-  const ticketService = useMemo(() => {
-    const repository = new TicketRepositoryImpl();
-    return new TicketService(repository);
-  }, []);
-
-  // Memoize filters to prevent unnecessary re-renders
   const memoizedFilters = useMemo(() => filters, [JSON.stringify(filters)]);
 
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    const fetchTickets = async () => {
+  const fetchTickets = useCallback(
+    async (signal?: AbortSignal) => {
       try {
         setLoading(true);
-        const tickets = await ticketService.getTickets(
+        const result = await ticketService.getTickets(
           { page, pageSize, ...memoizedFilters },
-          { signal: abortController.signal }
+          { signal }
         );
+
         setData({
           tickets: {
-            data: tickets,
+            data: result.tickets.data,
             current_page: page,
-            total: 100, // Need to get this from the API response
+            total: 100, // Should come from API
             per_page: pageSize,
             last_page: Math.ceil(100 / pageSize),
           },
           filters: [],
         });
       } catch (err) {
-        if (!abortController.signal.aborted) {
+        if (!signal?.aborted) {
           setError(
             err instanceof Error ? err : new Error("Failed to fetch tickets")
           );
         }
       } finally {
-        if (!abortController.signal.aborted) {
+        if (!signal?.aborted) {
           setLoading(false);
         }
       }
-    };
+    },
+    [ticketService, page, pageSize, memoizedFilters]
+  );
 
-    fetchTickets();
-
-    return () => {
-      abortController.abort();
-    };
-  }, [page, pageSize, memoizedFilters, ticketService]);
+  useEffect(() => {
+    const abortController = new AbortController();
+    fetchTickets(abortController.signal);
+    return () => abortController.abort();
+  }, [fetchTickets]);
 
   return { data, loading, error };
 };
