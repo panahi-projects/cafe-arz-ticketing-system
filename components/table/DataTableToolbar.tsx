@@ -1,5 +1,6 @@
 "use client";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Filter } from "@/lib/icons";
+import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 type Props = {
@@ -8,23 +9,17 @@ type Props = {
 
 const DataTableToolbar = ({ children }: Props) => {
   return (
-    <Box
-      display="flex"
-      flexDirection={{ xs: "column", sm: "row" }}
-      justifyContent="space-between"
-      alignItems={{ xs: "flex-start", sm: "center" }}
-      gap={{ xs: 1, sm: 0 }}
-    >
-      <Box display="flex" alignItems="center" gap={1}>
-        <IconButton color="primary" size="small">
-          (Y) FilterListIcon
-        </IconButton>
-        <Typography fontWeight={600} fontSize={{ xs: 14, sm: 16 }}>
-          فیلترها
+    <Box display={"flex"} justifyContent={"space-between"}>
+      <Box display={"flex"} gap={1} sx={{ color: "text.primary" }}>
+        <Typography fontSize={12} fontWeight={700}>
+          لیست تیکت ها
+        </Typography>
+        <Typography fontSize={12} fontWeight={700}>
+          (215)
         </Typography>
       </Box>
-      <Box display="flex" gap={1} flexWrap="wrap">
-        {children}
+      <Box sx={{ color: "text.primary" }}>
+        <Filter opacity={1} />
       </Box>
     </Box>
   );

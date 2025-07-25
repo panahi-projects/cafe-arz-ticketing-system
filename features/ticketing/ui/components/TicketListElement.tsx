@@ -117,9 +117,10 @@ const TicketListElement = ({
         total={total}
         onPageChange={handlePageChange}
         summaryItems={[
-          { label: "بدون پاسخ", count: 12, color: "error" },
-          { label: "در حال بررسی", count: 20, color: "warning" },
-          { label: "پاسخ داده شده", count: 24, color: "success" },
+          { label: "بدون پاسخ", count: 12, key: "NOANSWER" },
+          { label: "در حال بررسی", count: 20, key: "PENDING" },
+          { label: "پاسخ داده شده", count: 24, key: "ANSWERED" },
+          { label: "حل شده", count: 10, key: "RESOLVED" },
         ]}
         appliedFilters={["وضعیت: بدون پاسخ"]}
         onRemoveFilter={(f) => console.log("remove filter", f)}

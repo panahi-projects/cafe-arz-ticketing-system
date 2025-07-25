@@ -62,8 +62,10 @@ export interface TicketReply {
   };
 }
 
+export type StatusType = "NOANSWER" | "PENDING" | "ANSWERED" | "RESOLVED";
+
 export interface TicketStatus {
-  key: "NOANSWER" | "PENDING" | "ANSWERED" | "RESOLVED";
+  key: StatusType;
   label: string;
 }
 

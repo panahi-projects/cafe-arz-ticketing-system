@@ -18,6 +18,7 @@ import DataTableFilterChips from "./DataTableFilterChips";
 import DataTablePagination from "./DataTablePagination";
 import DataTableSummary from "./DataTableSummary";
 import DataTableToolbar from "./DataTableToolbar";
+import { StatusType } from "@/features/ticketing/types";
 
 export type Column<T> = {
   id: keyof T & string;
@@ -26,9 +27,9 @@ export type Column<T> = {
 };
 
 export type SummaryItem = {
+  key?: StatusType;
   label: string;
   count: number;
-  color?: "default" | "primary" | "secondary" | "error" | "warning" | "success";
 };
 
 type Props<T> = {
@@ -65,13 +66,20 @@ const DataTable = <T,>({
     <Box position={"relative"} sx={{ overflow: "hidden" }}>
       <Paper elevation={1} sx={{ borderRadius: 4, overflow: "hidden" }}>
         {/* 1. Filters */}
-        <Box sx={{ p: { xs: 1, sm: 2 } }}>
+        <Box sx={{ p: { xs: 1, sm: 2 }, pb: { xs: 1, sm: 0.5 } }}>
           <DataTableToolbar>{filters}</DataTableToolbar>
         </Box>
 
         {/* 2. Summary tags */}
         {summaryItems && (
-          <Box sx={{ p: { xs: 1, sm: 2 }, pt: 0 }}>
+          <Box
+            sx={{
+              px: { xs: 1, sm: 2 },
+              pb: { xs: 1, sm: 1 },
+              borderBottom: "2px solid",
+              borderColor: "divider",
+            }}
+          >
             <DataTableSummary items={summaryItems} />
           </Box>
         )}
