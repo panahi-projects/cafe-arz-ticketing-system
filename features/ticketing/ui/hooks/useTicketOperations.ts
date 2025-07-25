@@ -1,9 +1,8 @@
-// features/ticketing/hooks/useTicketOperations.ts
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { TicketListResponse } from "../../types";
+import { useCallback, useEffect, useState } from "react";
 import { useTicketService } from "../../context/TicketServiceContext";
+import { TicketListResponse } from "../../types";
 
 export const useTicketOperations = () => {
   const ticketService = useTicketService();
@@ -32,13 +31,13 @@ export const useTicketOperations = () => {
 
         const responseData = {
           tickets: {
-            data: result.tickets.data,
+            data: result?.tickets?.data || [],
             current_page: page,
-            total: result.tickets.total || 100,
+            total: result?.tickets?.total || 100,
             per_page: pageSize,
-            last_page: Math.ceil((result.tickets.total || 100) / pageSize),
+            last_page: Math.ceil((result?.tickets?.total || 100) / pageSize),
           },
-          filters: result.filters || [],
+          filters: result?.filters || [],
         };
 
         setCache({

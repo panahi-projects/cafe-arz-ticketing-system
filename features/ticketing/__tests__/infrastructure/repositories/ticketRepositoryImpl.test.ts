@@ -31,7 +31,7 @@ describe("TicketRepositoryImpl", () => {
 
       const result = await repository.getTickets({ page: 1 });
 
-      expect(result).toEqual(mockResponse.tickets.data);
+      expect(result.tickets.data).toEqual(mockResponse.tickets.data);
 
       expect(TicketApi.getTickets).toHaveBeenCalledWith({ page: 1 }, undefined);
     });
