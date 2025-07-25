@@ -21,6 +21,7 @@ export interface MenuItem {
   path?: string;
   icon?: IconKey;
   children?: MenuItem[] | null;
+  showInBreadcrumbs?: boolean;
 }
 
 export interface LogoProps extends BoxProps {

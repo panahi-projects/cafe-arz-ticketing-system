@@ -41,6 +41,7 @@ export const menuItems: MenuItem[] = [
     label: "تیکت ها",
     icon: "telegramAlt",
     path: "/dashboard/tickets",
+    showInBreadcrumbs: false,
     children: [
       {
         key: "ticket-list",

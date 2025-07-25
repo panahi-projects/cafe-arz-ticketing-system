@@ -2,6 +2,8 @@
 import { Box, useMediaQuery } from "@mui/material";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { Breadcrumbs } from "../Breadcrumbs";
+import { PageTitle } from "../PageTitle";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -33,6 +35,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             p: { xs: 2, md: 4 },
           }}
         >
+          <PageTitle />
+          <Breadcrumbs separator="." />
           {children}
         </Box>
       </Box>
