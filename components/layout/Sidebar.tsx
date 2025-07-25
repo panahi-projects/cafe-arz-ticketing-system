@@ -135,7 +135,7 @@ const Sidebar = () => {
         }}
       >
         {/* Logo */}
-        <Box sx={{ p: 2, position: "relative", flexShrink: 0, pr: 3 }}>
+        <Box sx={{ p: 2, position: "relative", flexShrink: 0, pr: 3.5 }}>
           <Logo isExpanded={isExpanded} />
         </Box>
 

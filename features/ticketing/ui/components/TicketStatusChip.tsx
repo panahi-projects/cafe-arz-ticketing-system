@@ -12,7 +12,7 @@ const statusColors = {
 
 interface TicketStatusChipProps {
   item: TicketStatus;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   sx?: SxProps<Theme> | undefined;
 }
 
