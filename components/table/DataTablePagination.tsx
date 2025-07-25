@@ -42,12 +42,16 @@ const DataTablePagination = ({
             fontSize: { xs: "0.75rem", sm: "0.875rem" },
             minWidth: { xs: "28px", sm: "32px" },
             height: { xs: "28px", sm: "32px" },
+            margin: { xs: "0px", sm: "0 4px" },
           },
-          "& .Mui-selected": {
-            backgroundColor: theme.palette.grey[900],
-            color: theme.palette.common.white,
+          "& .MuiPagination-ul": {
+            flexWrap: "nowrap",
+          },
+          "& .MuiPaginationItem-root.Mui-selected": {
+            backgroundColor: "#000",
+            color: "#fff",
             "&:hover": {
-              backgroundColor: theme.palette.grey[800],
+              backgroundColor: "#111",
             },
           },
         }}

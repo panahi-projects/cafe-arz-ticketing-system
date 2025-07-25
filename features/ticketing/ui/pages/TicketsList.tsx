@@ -131,7 +131,7 @@ const TicketsList = () => {
   }
 
   return (
-    <div>
+    <Box position="relative">
       <DataTable
         columns={columns}
         rows={data.tickets.data}
@@ -157,7 +157,7 @@ const TicketsList = () => {
           </>
         }
       />
-    </div>
+    </Box>
   );
 };
 

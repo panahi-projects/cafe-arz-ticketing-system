@@ -18,6 +18,7 @@ import Logo from "./Logo";
 import ChildMenuItem from "./sidebar/ChildMenuItem";
 import ParentMenuItem from "./sidebar/ParentMenuItem";
 import { sidebarStyles } from "./sidebar/SidebarStyles";
+import { useTheme } from "@mui/material/styles";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -27,6 +28,7 @@ const Sidebar = () => {
   const [currentSubmenu, setCurrentSubmenu] = useState<string | null>(null);
   const parentRefs = useRef<Record<string, HTMLElement | null>>({});
   const popperRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
 
   const handleToggle = (key: string, event: React.MouseEvent<HTMLElement>) => {
     if (!isExpanded) {
@@ -98,7 +100,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box sx={{ position: "relative", zIndex: theme.zIndex.appBar }}>
       {/* Toggle button */}
       <Box sx={{ position: "absolute", top: 8, left: -16, zIndex: 10 }}>
         <IconButton

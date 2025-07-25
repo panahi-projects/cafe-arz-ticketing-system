@@ -45,7 +45,8 @@ export const metadata: Metadata = {
     icon: globalConfigs.main.metaData?.favicon || "/favicon.ico",
     shortcut: "/favicon-16x16.png",
     apple:
-      globalConfigs.main.metaData?.appleTouchIcon || "/apple-touch-icon.png",
+      globalConfigs.main.metaData?.appleTouchIcon ||
+      "/assets/images/apple-touch-icon.png",
   },
 
   // Other
