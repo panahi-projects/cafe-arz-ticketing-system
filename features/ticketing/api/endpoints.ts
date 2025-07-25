@@ -1,4 +1,4 @@
-import { TicketListResponse, TicketResponse } from "../types";
+import { TicketListResponse } from "../types";
 import { ticketingApi } from "./api-factory";
 
 export const TicketApi = {

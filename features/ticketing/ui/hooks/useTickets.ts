@@ -1,11 +1,18 @@
 import { useState, useEffect, useMemo } from "react";
-import { TicketApi } from "@/features/ticketing/api/endpoints";
-import { TicketListResponse } from "@/features/ticketing/types";
+import { TicketListResponse } from "../../types";
+import { TicketRepositoryImpl } from "../../infrastructure/repositories/ticketRepositoryImpl";
+import { TicketService } from "../../domain/services/ticketService";
 
 export const useTickets = (page: number, pageSize: number, filters = {}) => {
   const [data, setData] = useState<TicketListResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+
+  // Initialize service and repository
+  const ticketService = useMemo(() => {
+    const repository = new TicketRepositoryImpl();
+    return new TicketService(repository);
+  }, []);
 
   // Memoize filters to prevent unnecessary re-renders
   const memoizedFilters = useMemo(() => filters, [JSON.stringify(filters)]);
@@ -16,15 +23,22 @@ export const useTickets = (page: number, pageSize: number, filters = {}) => {
     const fetchTickets = async () => {
       try {
         setLoading(true);
-        const response = await TicketApi.getTickets(
-          {
-            page,
-            pageSize,
-            ...memoizedFilters,
+        const tickets = await ticketService.getTickets({
+          page,
+          pageSize,
+          ...memoizedFilters,
+          signal: abortController.signal,
+        });
+        setData({
+          tickets: {
+            data: tickets,
+            current_page: page,
+            total: 100, // Need to get this from the API response
+            per_page: pageSize,
+            last_page: Math.ceil(100 / pageSize),
           },
-          { signal: abortController.signal }
-        );
-        setData(response);
+          filters: [],
+        });
       } catch (err) {
         if (!abortController.signal.aborted) {
           setError(
@@ -43,7 +57,7 @@ export const useTickets = (page: number, pageSize: number, filters = {}) => {
     return () => {
       abortController.abort();
     };
-  }, [page, pageSize, memoizedFilters]);
+  }, [page, pageSize, memoizedFilters, ticketService]);
 
   return { data, loading, error };
 };
