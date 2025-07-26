@@ -1,4 +1,3 @@
-// components/Breadcrumbs.tsx
 "use client";
 
 import { menuItems } from "@/configs";

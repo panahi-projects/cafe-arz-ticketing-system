@@ -1,4 +1,3 @@
-// components/PageTitle.tsx
 "use client";
 
 import { menuItems } from "@/configs";

@@ -30,3 +30,13 @@ export interface LogoProps extends BoxProps {
   iconLogoProps?: Partial<ImageProps>;
   transitionDuration?: number;
 }
+
+export type ColorVariant =
+  | "inherit"
+  | "success"
+  | "primary"
+  | "secondary"
+  | "error"
+  | "info"
+  | "warning"
+  | undefined;

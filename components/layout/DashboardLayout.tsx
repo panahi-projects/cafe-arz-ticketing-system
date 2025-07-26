@@ -1,12 +1,16 @@
 "use client";
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { Breadcrumbs } from "../Breadcrumbs";
 import { PageTitle } from "../PageTitle";
+import { useLayoutContext } from "@/context/DashboardLayoutContext";
+import { Plus } from "@/lib/icons";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useMediaQuery("(max-width:768px)");
+  const { headerAction } = useLayoutContext();
+
   return (
     <Box
       sx={{
@@ -33,9 +37,39 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             flex: 1,
             overflowY: "auto",
             p: { xs: 2, md: 4 },
+            pt: { xs: 2, md: 2 },
           }}
         >
-          <PageTitle />
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Box>
+              <PageTitle />
+            </Box>
+            <Box>
+              {headerAction && (
+                <Button
+                  variant="contained"
+                  onClick={headerAction.onClick}
+                  startIcon={headerAction.icon || <Plus opacity={1} />}
+                  sx={{
+                    minWidth: "fit-content",
+                    gap: 1,
+                    borderRadius: "8px",
+                    pr: !isMobile ? 1 : 0.5,
+                    py: 1,
+                    ...headerAction.sx,
+                  }}
+                  color={headerAction.color ?? "success"}
+                >
+                  {!isMobile ? headerAction.label : ""}
+                </Button>
+              )}
+            </Box>
+          </Box>
           <Breadcrumbs separator="." />
           {children}
         </Box>

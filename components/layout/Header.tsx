@@ -37,7 +37,6 @@ const Header = () => {
           bgcolor: "background.default",
           width: "100%",
           boxShadow: 0,
-          mb: 2,
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>

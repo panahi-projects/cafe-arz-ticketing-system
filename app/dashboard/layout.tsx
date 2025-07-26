@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { DashboardLayoutProvider } from "@/context/DashboardLayoutContext";
 import { notFound } from "next/navigation";
 
 export default function Layout({
@@ -9,5 +10,9 @@ export default function Layout({
   if (false) {
     notFound();
   }
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return (
+    <DashboardLayoutProvider>
+      <DashboardLayout>{children}</DashboardLayout>
+    </DashboardLayoutProvider>
+  );
 }
