@@ -80,6 +80,14 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
         }
 
         schemaObj[field.name] = validator;
+      } else if (field.type === "select") {
+        schemaObj[field.name] = z
+          .union([
+            z.string(),
+            z.number(),
+            z.array(z.union([z.string(), z.number()])),
+          ])
+          .optional();
       }
     });
 
@@ -93,17 +101,32 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(validationSchema),
     defaultValues: schema.filters.reduce((acc, field) => {
-      acc[field.name as keyof FormData] = field.value;
+      acc[field.name as keyof FormData] = field.value as never;
       return acc;
     }, {} as FormData),
   });
 
   const handleReset = () => {
-    reset();
+    const resetValues = schema.filters.reduce((acc, field) => {
+      if (field.type === "select") {
+        // For select fields, reset based on their multiple/single type
+        acc[field.name] =
+          (field.attr as FormFieldAttributes)?.select_type === "multiple"
+            ? []
+            : "";
+      } else {
+        // For text fields
+        acc[field.name] = "";
+      }
+      return acc;
+    }, {} as Record<string, unknown>);
+
+    reset(resetValues);
   };
 
   return (
@@ -118,10 +141,8 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
                   label={field.label}
                   fullWidth
                   variant="outlined"
-                  error={!!errors[field.name as keyof FormData]}
-                  helperText={
-                    errors[field.name as keyof FormData]?.message as string
-                  }
+                  error={!!errors[field.name]}
+                  helperText={errors[field.name]?.message as string}
                   InputLabelProps={{
                     shrink: true,
                     sx: {
@@ -157,10 +178,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
                 />
               </FormControl>
             ) : field.type === "select" ? (
-              <FormControl
-                fullWidth
-                error={!!errors[field.name as keyof FormData]}
-              >
+              <FormControl fullWidth error={!!errors[field.name]}>
                 <InputLabel
                   shrink
                   sx={{
@@ -178,13 +196,11 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
                   {field.label}
                 </InputLabel>
                 <Select
-                  {...register(field.name as keyof FormData)}
-                  defaultValue={field.value}
+                  {...register(field.name)}
+                  value={watch(field.name) ?? ""} // Use watch to get current value
                   multiple={
                     (field.attr as FormFieldAttributes)?.select_type ===
                     "multiple"
-                      ? true
-                      : false
                   }
                   sx={{
                     position: "relative",
@@ -205,14 +221,14 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
                   }}
                 >
                   {field.options.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
+                    <MenuItem key={option._id.toString()} value={option._id}>
                       {option.value}
                     </MenuItem>
                   ))}
                 </Select>
-                {errors[field.name as keyof FormData] && (
+                {errors[field.name] && (
                   <FormHelperText>
-                    {errors[field.name as keyof FormData]?.message as string}
+                    {errors[field.name]?.message as string}
                   </FormHelperText>
                 )}
               </FormControl>
