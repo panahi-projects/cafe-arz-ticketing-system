@@ -122,7 +122,32 @@ const TicketListElement = ({
           { label: "پاسخ داده شده", count: 24, key: "ANSWERED" },
           { label: "حل شده", count: 10, key: "RESOLVED" },
         ]}
-        appliedFilters={["وضعیت: بدون پاسخ"]}
+        appliedFilters={[
+          {
+            key: "status",
+            label: "وضعیت",
+            items: [
+              {
+                key: "NOANSWER",
+                label: "NOANSWER",
+              },
+              {
+                key: "PENDING",
+                label: "PENDING",
+              },
+            ],
+          },
+          {
+            key: "name",
+            label: "نام و نام خانوادگی",
+            items: [
+              {
+                key: "TEST",
+                label: "تست",
+              },
+            ],
+          },
+        ]}
         onRemoveFilter={(f) => console.log("remove filter", f)}
         filters={
           <>

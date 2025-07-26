@@ -31,6 +31,15 @@ export type SummaryItem = {
   label: string;
   count: number;
 };
+export type FiletItem = {
+  key: string;
+  label?: string;
+};
+export type AppliedFilter = {
+  key: string;
+  label: string;
+  items: FiletItem[];
+};
 
 type Props<T> = {
   columns: Column<T>[];
@@ -40,7 +49,7 @@ type Props<T> = {
   onPageChange?: (page: number) => void;
   filters?: ReactNode;
   summaryItems?: SummaryItem[];
-  appliedFilters?: string[];
+  appliedFilters?: AppliedFilter[];
   rowsPerPage?: number;
   onRemoveFilter?: (filter: string) => void;
   loading?: boolean;
