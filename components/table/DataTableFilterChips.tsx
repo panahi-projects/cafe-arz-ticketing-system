@@ -1,8 +1,8 @@
 "use client";
-import { Close, Trash } from "@/lib/icons";
+import { Trash } from "@/lib/icons";
 import { Box, Chip, Typography, useMediaQuery } from "@mui/material";
-import { AppliedFilter, FiletItem } from "./DataTable";
 import { useEffect, useState } from "react";
+import { AppliedFilter, FiletItem } from "./DataTable";
 
 type Props = {
   filters: AppliedFilter[];

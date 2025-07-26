@@ -1,7 +1,7 @@
 "use client";
-import { Filter } from "@/lib/icons";
 import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
+import DataTableFilter from "./DataTableFilter";
 
 type Props = {
   children?: ReactNode;
@@ -18,9 +18,7 @@ const DataTableToolbar = ({ children }: Props) => {
           (215)
         </Typography>
       </Box>
-      <Box sx={{ color: "text.primary" }}>
-        <Filter opacity={1} />
-      </Box>
+      <DataTableFilter />
     </Box>
   );
 };
