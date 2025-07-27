@@ -1,19 +1,11 @@
 "use client";
 import { createCustomTheme } from "@/configs";
+import { ThemeContextType, ThemeProviderProps } from "@/types";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
-import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
-
-type Props = {
-  children: ReactNode;
-  defaultMode?: "light" | "dark";
-};
-type ThemeContextType = {
-  toggleMode: () => void;
-  mode: "light" | "dark";
-};
+import { createContext, useEffect, useMemo, useState } from "react";
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -21,7 +13,10 @@ const createEmotionCache = () => {
   return createCache({ key: "css", prepend: true });
 };
 
-const ThemeProvider = ({ children, defaultMode = "light" }: Props) => {
+const ThemeProvider = ({
+  children,
+  defaultMode = "light",
+}: ThemeProviderProps) => {
   const [mode, setMode] = useState<"light" | "dark">(defaultMode);
   const [mounted, setMounted] = useState(false);
 

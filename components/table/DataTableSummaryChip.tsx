@@ -1,11 +1,6 @@
-import { TicketStatus } from "@/features/ticketing/types";
 import TicketStatusChip from "@/features/ticketing/ui/components/TicketStatusChip";
-import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-
-export interface DataTableSummaryChipProps {
-  rawText: string;
-  status: TicketStatus;
-}
+import { DataTableSummaryChipProps } from "@/types";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const DataTableSummaryChip = ({
   rawText,

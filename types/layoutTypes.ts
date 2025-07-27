@@ -1,7 +1,8 @@
 import { icons } from "@/lib/icons";
-import { SVGProps } from "react";
+import { ReactNode, SVGProps } from "react";
 import { ImageProps } from "next/image";
-import { BoxProps } from "@mui/material";
+import { BoxProps, SxProps, Theme } from "@mui/material";
+import { ColorVariants } from "./uiTypes";
 
 export interface MobileDrawerProps {
   open: boolean;
@@ -31,12 +32,20 @@ export interface LogoProps extends BoxProps {
   transitionDuration?: number;
 }
 
-export type ColorVariant =
-  | "inherit"
-  | "success"
-  | "primary"
-  | "secondary"
-  | "error"
-  | "info"
-  | "warning"
-  | undefined;
+export interface HeaderAction {
+  label: string;
+  onClick: () => void;
+  icon?: ReactNode;
+  sx?: SxProps<Theme>;
+  color?: ColorVariants;
+}
+
+export interface LayoutContextValue {
+  headerAction: HeaderAction | null;
+  setHeaderAction: (action: HeaderAction | null) => void;
+}
+
+export interface HeaderMenuProps {
+  sx?: SxProps<Theme> | undefined;
+  itemsSx?: SxProps<Theme> | undefined;
+}

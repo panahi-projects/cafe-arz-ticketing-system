@@ -1,20 +1,9 @@
 "use client";
 import { Trash } from "@/lib/icons";
+import { DataTableFilterChipsProps, FilterChipProps } from "@/types";
 import { Box, Chip, Typography, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
-import { AppliedFilter, FiletItem } from "./DataTable";
 
-type Props = {
-  filters: AppliedFilter[];
-  onRemove?: (filter: string) => void;
-  onRemoveAll?: () => void;
-};
-
-interface FilterChipProps {
-  id: string;
-  items: FiletItem[];
-  onRemove?: (filter: string) => void;
-}
 const FilterChip = ({ id, items, onRemove }: FilterChipProps) => {
   const isMobile = useMediaQuery("(max-width:768px)");
   const [filterItems, setFilterItems] = useState<string>("");
@@ -49,7 +38,11 @@ const FilterChip = ({ id, items, onRemove }: FilterChipProps) => {
   );
 };
 
-const DataTableFilterChips = ({ filters, onRemove, onRemoveAll }: Props) => {
+const DataTableFilterChips = ({
+  filters,
+  onRemove,
+  onRemoveAll,
+}: DataTableFilterChipsProps) => {
   const isMobile = useMediaQuery("(max-width:768px)");
   if (!filters.length) return null;
 

@@ -1,15 +1,12 @@
 "use client";
-import { Typography } from "@mui/material";
-import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
-import { isObjectValueNullOrEmpty } from "@/lib/utils";
-import { generateFilterObject } from "../../lib";
-import { DepartmentMap } from "../../constants";
-import { GenericFormProps } from "@/types";
 import GenericForm from "@/components/form/GenericForm";
-
-interface TicketFilterFormProps {
-  onSuccess?: () => void;
-}
+import { isObjectValueNullOrEmpty } from "@/lib/utils";
+import { GenericFormProps } from "@/types";
+import { Typography } from "@mui/material";
+import { DepartmentMap } from "../../constants";
+import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
+import { generateFilterObject } from "../../lib";
+import { TicketFilterFormProps } from "../../types";
 
 export default function TicketFilterForm({ onSuccess }: TicketFilterFormProps) {
   const { appliedFilters, setAppliedFilters, filters } = useTicketFilterStore();

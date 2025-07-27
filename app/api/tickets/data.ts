@@ -5,6 +5,7 @@ import {
   TicketPriority,
   TicketReply,
   TicketStatus,
+  TicketTitle,
   UserInfo,
 } from "@/features/ticketing/types";
 
@@ -126,7 +127,6 @@ const generateUserInfo = (id: number): UserInfo => {
     })(),
   };
 };
-type TicketTitle = "خدمات سایت" | "مشکل فنی" | "سوال مالی" | "درخواست فروش";
 const ticketSpecificReplies: Record<TicketTitle, string[]> = {
   "خدمات سایت": [
     "مشکل دسترسی به خدمات سایت همچنان وجود دارد.",

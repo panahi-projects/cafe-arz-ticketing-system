@@ -1,16 +1,12 @@
+import { AppliedFilterItem } from "@/types";
 import { FilterMap } from "../constants";
-import { AppliedFilterItem } from "../infrastructure/stores/ticketFilterStore";
+import { Mapper } from "../types";
 
 //This function is for our test, and for the production we don't need it
 export const randomSelect = (options: unknown[]) => {
   const randomIndex = Math.floor(Math.random() * options.length);
   return options[randomIndex];
 };
-
-interface Mapper {
-  key: string;
-  values: Record<string | number, string | number | boolean>;
-}
 
 export const generateFilterObject = (
   filters: Record<string, unknown>,

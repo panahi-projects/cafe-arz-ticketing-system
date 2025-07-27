@@ -1,48 +1,6 @@
-import { FormField } from "@/types";
+import { FilterActions, FilterState } from "@/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export interface FormFieldAttributes {
-  [key: string]: any;
-}
-
-export interface AppliedFilterItem {
-  key: string;
-  label: string | number;
-}
-
-export interface AppliedFilter {
-  key: string;
-  label: string;
-  items: AppliedFilterItem[];
-}
-
-export interface FilterState {
-  page: number;
-  pageSize: number;
-  filters: FormField[];
-  appliedFilters: {
-    rawFilters: Record<string, unknown>;
-    mappedFilters: AppliedFilter[];
-  };
-}
-
-interface FilterActions {
-  setPage: (page: number) => void;
-  setPageSize: (size: number) => void;
-  setFilters: (filters: FormField[]) => void;
-  setAppliedFilters: (appliedFilters: {
-    rawFilters: Record<string, unknown>;
-    mappedFilters: AppliedFilter[];
-  }) => void;
-  setRawFilters: (rawFilters: Record<string, unknown>) => void;
-  setMappedFilters: (mappedFilters: AppliedFilter[]) => void;
-  removeFilter: (key: string) => void;
-  removeAppliedFilter: (key: string) => void;
-  clearAllFilters: () => void;
-  clearAllAppliedFilters: () => void;
-  reset: () => void;
-}
 
 const initialState: FilterState = {
   page: 1,

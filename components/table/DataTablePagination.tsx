@@ -1,21 +1,15 @@
 "use client";
+import { DataTablePaginationProps } from "@/types";
 import { Box, Pagination } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
-type Props = {
-  page: number;
-  total: number;
-  rowsPerPage?: number;
-  onPageChange: (page: number) => void;
-};
 
 const DataTablePagination = ({
   page,
   total,
   onPageChange,
   rowsPerPage = 10,
-}: Props) => {
+}: DataTablePaginationProps) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const pageCount = Math.ceil(total / rowsPerPage);

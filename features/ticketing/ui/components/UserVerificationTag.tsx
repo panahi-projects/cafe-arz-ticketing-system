@@ -1,42 +1,8 @@
-import {
-  DocumentText,
-  icons,
-  Letter,
-  PhoneCalling,
-  PhoneOutline,
-  UserIdOutline,
-  VideoCamera,
-} from "@/lib/icons";
-import { IconKey, IconProps } from "@/types";
+import { icons } from "@/lib/icons";
+import { UserVerificationTagProps, VerificationType } from "@/types";
 import { IconButton } from "@mui/material";
-import React, { JSX } from "react";
 
-export type VerificationType =
-  | "mobile"
-  | "email"
-  | "credit"
-  | "national"
-  | "phone"
-  | "image";
-
-export type ColorVariants =
-  | "inherit"
-  | "success"
-  | "primary"
-  | "secondary"
-  | "error"
-  | "info"
-  | "warning"
-  | "default";
-export interface UserVerificationTagProps {
-  type: VerificationType;
-  color?: ColorVariants;
-}
-
-const UserVerificationTag = ({
-  type,
-  color = "default",
-}: UserVerificationTagProps) => {
+const UserVerificationTag = ({ type, color }: UserVerificationTagProps) => {
   const iconMap: Record<VerificationType, any> = {
     mobile: icons.phoneOutline,
     phone: icons.phoneCalling,

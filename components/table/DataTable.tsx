@@ -13,48 +13,11 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { ReactNode } from "react";
 import DataTableFilterChips from "./DataTableFilterChips";
 import DataTablePagination from "./DataTablePagination";
 import DataTableSummary from "./DataTableSummary";
 import DataTableToolbar from "./DataTableToolbar";
-import { StatusType } from "@/features/ticketing/types";
-
-export type Column<T> = {
-  id: keyof T & string;
-  label: string;
-  render?: (row: T) => ReactNode;
-};
-
-export type SummaryItem = {
-  key?: StatusType;
-  label: string;
-  count: number;
-};
-export type FiletItem = {
-  key: string;
-  label?: string | number;
-};
-export type AppliedFilter = {
-  key: string;
-  label: string;
-  items: FiletItem[];
-};
-
-type Props<T> = {
-  columns: Column<T>[];
-  rows: T[];
-  page: number;
-  total: number;
-  onPageChange?: (page: number) => void;
-  filters?: ReactNode;
-  summaryItems?: SummaryItem[];
-  appliedFilters?: AppliedFilter[];
-  rowsPerPage?: number;
-  onRemoveFilter?: (filter: string) => void;
-  onRemoveAllFilters?: () => void;
-  loading?: boolean;
-};
+import { DataTableProps } from "@/types";
 
 const DataTable = <T,>({
   columns,
@@ -68,7 +31,7 @@ const DataTable = <T,>({
   onRemoveFilter,
   onRemoveAllFilters,
   loading = false,
-}: Props<T>) => {
+}: DataTableProps<T>) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 

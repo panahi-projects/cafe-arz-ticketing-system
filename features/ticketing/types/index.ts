@@ -1,1 +1,1 @@
-export * from "./ticket";
+export * from "./ticketingTypes";

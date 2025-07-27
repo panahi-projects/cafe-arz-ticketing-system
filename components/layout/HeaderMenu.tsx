@@ -1,6 +1,6 @@
 import { Archive, Bag, Bell, Card, Cart } from "@/lib/icons";
-import { Box, BoxProps, SxProps, Theme } from "@mui/material";
-import React from "react";
+import { HeaderMenuProps } from "@/types";
+import { Box, BoxProps } from "@mui/material";
 
 function Item(props: BoxProps) {
   const { sx, ...other } = props;
@@ -28,10 +28,6 @@ function Item(props: BoxProps) {
   );
 }
 
-interface HeaderMenuProps {
-  sx?: SxProps<Theme> | undefined;
-  itemsSx?: SxProps<Theme> | undefined;
-}
 const HeaderMenu = ({ sx, itemsSx }: HeaderMenuProps) => {
   return (
     <Box

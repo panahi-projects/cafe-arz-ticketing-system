@@ -1,7 +1,6 @@
-import { Chip, SxProps } from "@mui/material";
+import { Chip } from "@mui/material";
 import React, { useMemo } from "react";
-import { TicketStatus } from "../../types";
-import { Theme } from "@emotion/react";
+import { TicketStatusChipProps } from "../../types";
 
 const STATUS_CONFIG = {
   ANSWERED: {
@@ -30,12 +29,6 @@ const STATUS_CONFIG = {
     text: "grey.800",
   },
 } as const;
-
-interface TicketStatusChipProps {
-  item: TicketStatus;
-  size?: "xs" | "sm" | "md" | "lg";
-  sx?: SxProps<Theme> | undefined;
-}
 
 const TicketStatusChip = ({ item, size = "md", sx }: TicketStatusChipProps) => {
   const colorStyle = useMemo(() => STATUS_CONFIG[item.key], [item.key]);

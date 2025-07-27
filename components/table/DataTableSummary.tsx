@@ -1,8 +1,8 @@
 "use client";
 import { TicketStatus } from "@/features/ticketing/types";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import { SummaryItem } from "./DataTable";
 import DataTableSummaryChip from "./DataTableSummaryChip";
+import { SummaryItem } from "@/types";
 
 const DataTableSummary = ({ items }: { items: SummaryItem[] }) => {
   const theme = useTheme();

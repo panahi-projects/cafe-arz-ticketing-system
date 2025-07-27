@@ -1,4 +1,6 @@
 import { FormField } from "@/types";
+import { SxProps } from "@mui/material";
+import { Theme } from "@mui/system";
 
 export interface DateInfo {
   time: string;
@@ -111,13 +113,6 @@ export interface Ticket {
   replies: TicketReply[];
 }
 
-export interface TicketFilter {
-  type: string;
-  name: string;
-  label: string;
-  value: string;
-}
-
 export interface TicketResponse {
   ticket: Ticket;
 }
@@ -131,4 +126,36 @@ export interface TicketListResponse {
     last_page: number;
   };
   filters: FormField[];
+}
+
+export type TicketTitle =
+  | "خدمات سایت"
+  | "مشکل فنی"
+  | "سوال مالی"
+  | "درخواست فروش";
+
+export interface TicketFilterFormProps {
+  onSuccess?: () => void;
+}
+
+export interface TicketListElementProps {
+  tickets: Ticket[];
+  page: number;
+  pageSize: number;
+  total: number;
+  handlePageChange: (newPage: number) => void;
+  onFilterChange: (filterName: string, value: string) => void;
+  loading?: boolean;
+  currentFilters?: {};
+}
+
+export interface TicketStatusChipProps {
+  item: TicketStatus;
+  size?: "xs" | "sm" | "md" | "lg";
+  sx?: SxProps<Theme> | undefined;
+}
+
+export interface Mapper {
+  key: string;
+  values: Record<string | number, string | number | boolean>;
 }

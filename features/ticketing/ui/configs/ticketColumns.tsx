@@ -1,4 +1,4 @@
-import { Column } from "@/components/table/DataTable";
+import { Column } from "@/types";
 import { Ticket, UserInfo } from "../../types";
 import TicketUserInfo from "../components/TicketUserInfo";
 

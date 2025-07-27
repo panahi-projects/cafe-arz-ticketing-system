@@ -1,13 +1,8 @@
-import { FormField } from "@/types";
+import { FormFieldProps } from "@/types";
 import { FormControl, TextField } from "@mui/material";
-import { useFormContext, Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
-interface FormTextFieldProps {
-  field: FormField;
-  error?: string;
-}
-
-export const FormTextField = ({ field, error }: FormTextFieldProps) => {
+export const FormTextField = ({ field, error }: FormFieldProps) => {
   const { control } = useFormContext();
 
   return (

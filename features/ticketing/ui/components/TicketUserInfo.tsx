@@ -1,10 +1,8 @@
 import React, { useMemo } from "react";
-import { UserInfo } from "../../types";
 import { Avatar, Box, Typography } from "@mui/material";
-import UserVerificationTag, {
-  ColorVariants,
-  VerificationType,
-} from "./UserVerificationTag";
+import UserVerificationTag from "./UserVerificationTag";
+import { ColorVariants, VerificationType } from "@/types";
+import { UserInfo } from "../../types";
 
 // Define mapping between verification types and their display properties
 const VERIFICATION_CONFIG: Record<

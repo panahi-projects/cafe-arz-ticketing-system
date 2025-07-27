@@ -1,19 +1,14 @@
-import { FormField, FormFieldAttributes } from "@/types";
+import { FormFieldAttributes, FormFieldProps } from "@/types";
 import {
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
 } from "@mui/material";
-import { useFormContext, Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
-interface FormSelectFieldProps {
-  field: FormField;
-  error?: string;
-}
-
-export const FormSelectField = ({ field, error }: FormSelectFieldProps) => {
+export const FormSelectField = ({ field, error }: FormFieldProps) => {
   const { control } = useFormContext();
 
   return (

@@ -1,22 +1,12 @@
-import DataTable, { AppliedFilter, Column } from "@/components/table/DataTable";
-import { Box, Button, Typography } from "@mui/material";
-import { Ticket, TicketStatus, UserInfo } from "../../types";
-import TicketUserInfo from "./TicketUserInfo";
-import TicketStatusChip from "./TicketStatusChip";
+import DataTable from "@/components/table/DataTable";
 import { Eye } from "@/lib/icons";
-import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-
-interface TicketListElementProps {
-  tickets: Ticket[];
-  page: number;
-  pageSize: number;
-  total: number;
-  handlePageChange: (newPage: number) => void;
-  onFilterChange: (filterName: string, value: string) => void;
-  loading?: boolean;
-  currentFilters?: {};
-}
+import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
+import { Ticket, TicketListElementProps, UserInfo } from "../../types";
+import TicketStatusChip from "./TicketStatusChip";
+import TicketUserInfo from "./TicketUserInfo";
+import { AppliedFilter, Column } from "@/types";
 
 const TicketListElement = ({
   tickets,

@@ -34,6 +34,10 @@ export interface GenericFormProps {
 
 export type FormData = z.infer<ReturnType<typeof generateValidationSchema>>;
 
+export interface FormFieldProps {
+  field: FormField;
+  error?: string;
+}
 export const generateValidationSchema = (
   fields: FormField[],
   strictValidation = true

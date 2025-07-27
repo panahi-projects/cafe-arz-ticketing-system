@@ -1,22 +1,7 @@
 "use client";
 
-import { ColorVariant } from "@/types";
-import { Theme } from "@emotion/react";
-import { SxProps } from "@mui/material";
-import { createContext, useContext, ReactNode, useState } from "react";
-
-interface HeaderAction {
-  label: string;
-  onClick: () => void;
-  icon?: ReactNode;
-  sx?: SxProps<Theme>;
-  color?: ColorVariant;
-}
-
-interface LayoutContextValue {
-  headerAction: HeaderAction | null;
-  setHeaderAction: (action: HeaderAction | null) => void;
-}
+import { HeaderAction, LayoutContextValue } from "@/types";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 const LayoutContext = createContext<LayoutContextValue>({
   headerAction: null,

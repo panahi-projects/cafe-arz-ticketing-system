@@ -1,17 +1,10 @@
 "use client";
-import React, { createContext, useContext, useMemo, ReactNode } from "react";
-import { TicketRepositoryImpl } from "../infrastructure/repositories/ticketRepositoryImpl";
+import { createContext, useContext, useMemo } from "react";
 import { TicketService } from "../domain/services/ticketService";
-
-interface TicketServices {
-  ticketService: TicketService;
-}
+import { TicketRepositoryImpl } from "../infrastructure/repositories/ticketRepositoryImpl";
+import { TicketServiceProviderProps, TicketServices } from "@/types";
 
 const TicketServiceContext = createContext<TicketServices | null>(null);
-
-interface TicketServiceProviderProps {
-  children: ReactNode;
-}
 
 export const TicketServiceProvider = ({
   children,
