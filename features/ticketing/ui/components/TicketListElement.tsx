@@ -43,7 +43,9 @@ const TicketListElement = ({
       id: "user",
       label: "مشخصات کاربر",
       render: (row) => {
-        return <TicketUserInfo user={row.user as Partial<UserInfo>} />;
+        return (
+          row.user && <TicketUserInfo user={row.user as Partial<UserInfo>} />
+        );
       },
     },
     {
@@ -85,29 +87,8 @@ const TicketListElement = ({
     {
       id: "status",
       label: "وضعیت",
-      render: () => {
-        //Generate sample value to see different status chips,
-        //! It should be changed whenever real data provided. e.g: row.status
-        const statuses: TicketStatus[] = [
-          {
-            key: "ANSWERED",
-            label: "پاسخ داده شده",
-          },
-          {
-            key: "NOANSWER",
-            label: "بدون پاسخ",
-          },
-          {
-            key: "PENDING",
-            label: "در حال بررسی",
-          },
-          {
-            key: "RESOLVED",
-            label: "حل شده",
-          },
-        ];
-        const randomIndex = Math.floor(Math.random() * statuses.length);
-        return <TicketStatusChip item={statuses[randomIndex] || ""} />;
+      render: (row) => {
+        return <TicketStatusChip item={row.status} />;
       },
     },
     {

@@ -3,7 +3,7 @@ import { ticketingApi } from "./api-factory";
 
 export const TicketApi = {
   getTickets: (params?: any, config?: { signal?: AbortSignal }) =>
-    ticketingApi.get<TicketListResponse>("/test-api", {
+    ticketingApi.get<TicketListResponse>("/tickets", {
       params,
       signal: config?.signal,
     }),

@@ -3,11 +3,32 @@ import React, { useMemo } from "react";
 import { TicketStatus } from "../../types";
 import { Theme } from "@emotion/react";
 
-const statusColors = {
-  ANSWERED: { bg: "success.100", text: "success.dark" },
-  NOANSWER: { bg: "error.100", text: "error.dark" },
-  PENDING: { bg: "warning.100", text: "warning.dark" },
-  RESOLVED: { bg: "primary.100", text: "primary.dark" },
+const STATUS_CONFIG = {
+  ANSWERED: {
+    label: "پاسخ داده شده",
+    bg: "success.100",
+    text: "success.dark",
+  },
+  PENDING: {
+    label: "در حال بررسی",
+    bg: "warning.100",
+    text: "warning.dark",
+  },
+  NOANSWER: {
+    label: "بدون پاسخ",
+    bg: "error.100",
+    text: "error.dark",
+  },
+  RESOLVED: {
+    label: "حل شده",
+    bg: "primary.100",
+    text: "primary.dark",
+  },
+  CLOSED: {
+    label: "بسته شده",
+    bg: "grey.100",
+    text: "grey.800",
+  },
 } as const;
 
 interface TicketStatusChipProps {
@@ -17,7 +38,7 @@ interface TicketStatusChipProps {
 }
 
 const TicketStatusChip = ({ item, size = "md", sx }: TicketStatusChipProps) => {
-  const colorStyle = useMemo(() => statusColors[item.key], [item.key]);
+  const colorStyle = useMemo(() => STATUS_CONFIG[item.key], [item.key]);
   return (
     <Chip
       label={item.label}

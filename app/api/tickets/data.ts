@@ -25,8 +25,8 @@ const statuses: TicketStatus[] = [
   { key: "ANSWERED", label: "پاسخ داده شده" },
   { key: "PENDING", label: "در حال بررسی" },
   { key: "NOANSWER", label: "بدون پاسخ" },
-  { key: "RESOLVED", label: "حل شذه" },
-  { key: "CLOSED", label: "بسته شذه" },
+  { key: "RESOLVED", label: "حل شده" },
+  { key: "CLOSED", label: "بسته شده" },
 ];
 
 const getRandomDate = (start: Date, end: Date): DateInfo => {
@@ -110,13 +110,20 @@ const generateUserInfo = (id: number): UserInfo => {
     },
     balance: Math.floor(Math.random() * 1000000),
     verify: {
-      mobile: true,
+      mobile: Math.random() > 0.5,
       email: Math.random() > 0.5,
-      credit: Math.random() > 0.5,
       national: Math.random() > 0.5,
       phone: Math.random() > 0.5,
+      ...(Math.random() > 0.8 ? { credit: true } : {}),
+      ...(Math.random() > 0.8 ? { image: true } : {}),
     },
-    level: Math.random() > 0.5 ? "E" : "P",
+    level: (() => {
+      const rand = Math.random();
+      if (rand > 0.8) return "DIAMOND";
+      if (rand > 0.6) return "GOLD";
+      if (rand > 0.4) return "SILVER";
+      return "BRONZE";
+    })(),
   };
 };
 

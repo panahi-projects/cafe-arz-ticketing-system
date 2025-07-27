@@ -46,6 +46,7 @@ export interface UserInfo {
     credit?: boolean;
     phone?: boolean;
     national?: boolean;
+    image?: boolean;
   };
   level: string;
 }
@@ -64,7 +65,12 @@ export interface TicketReply {
   };
 }
 
-export type StatusType = "NOANSWER" | "PENDING" | "ANSWERED" | "RESOLVED";
+export type StatusType =
+  | "NOANSWER"
+  | "PENDING"
+  | "ANSWERED"
+  | "RESOLVED"
+  | "CLOSED";
 
 export interface TicketStatus {
   key: StatusType;
