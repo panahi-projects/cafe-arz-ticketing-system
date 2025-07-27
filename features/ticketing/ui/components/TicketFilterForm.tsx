@@ -1,11 +1,9 @@
 "use client";
-
 import { Typography } from "@mui/material";
 import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
 import GenericForm, { GenericFormProps } from "@/components/GenericForm";
 import { isObjectValueNullOrEmpty } from "@/lib/utils";
 import { generateFilterObject } from "../../lib";
-import { AppliedFilter } from "@/components/table/DataTable";
 import { DepartmentMap } from "../../constants";
 
 interface TicketFilterFormProps {
@@ -13,7 +11,8 @@ interface TicketFilterFormProps {
 }
 
 export default function TicketFilterForm({ onSuccess }: TicketFilterFormProps) {
-  const { setAppliedFilters, filters } = useTicketFilterStore();
+  const { appliedFilters, setAppliedFilters, filters } = useTicketFilterStore();
+
   const filterSchema: GenericFormProps = {
     schema: {
       fields: filters,
@@ -21,7 +20,6 @@ export default function TicketFilterForm({ onSuccess }: TicketFilterFormProps) {
   };
 
   const handleSubmit = (data: Record<string, unknown>) => {
-    console.log("Form submitted with data:", data);
     if (data && !isObjectValueNullOrEmpty(data)) {
       const mappers = [
         {
@@ -29,11 +27,14 @@ export default function TicketFilterForm({ onSuccess }: TicketFilterFormProps) {
           values: DepartmentMap,
         },
       ];
-      const filters = generateFilterObject(data, mappers);
-      setAppliedFilters(filters);
-    } else {
-      setAppliedFilters([]);
+      const mappedFilters = generateFilterObject(data, mappers);
+
+      setAppliedFilters({
+        rawFilters: data,
+        mappedFilters,
+      });
     }
+    if (onSuccess) onSuccess();
     return true;
   };
 
@@ -46,6 +47,7 @@ export default function TicketFilterForm({ onSuccess }: TicketFilterFormProps) {
         schema={filterSchema.schema}
         onSubmit={handleSubmit}
         onSuccess={onSuccess}
+        values={appliedFilters.rawFilters}
       />
     </div>
   );

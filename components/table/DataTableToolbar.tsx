@@ -15,7 +15,7 @@ const DataTableToolbar = ({ children }: Props) => {
           لیست تیکت ها
         </Typography>
         <Typography fontSize={12} fontWeight={700}>
-          (215)
+          {children}
         </Typography>
       </Box>
       <DataTableFilter />

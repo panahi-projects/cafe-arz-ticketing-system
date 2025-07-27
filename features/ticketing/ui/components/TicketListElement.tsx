@@ -24,14 +24,16 @@ const TicketListElement = ({
   pageSize,
   total,
   handlePageChange,
-  onFilterChange,
 }: TicketListElementProps) => {
   const { appliedFilters, clearAllAppliedFilters, removeAppliedFilter } =
     useTicketFilterStore();
+
   const [ticketFilters, setTicketFilters] = useState<AppliedFilter[]>([]);
   useEffect(() => {
-    if (appliedFilters.length) {
-      setTicketFilters(appliedFilters.filter((x) => x.items.length));
+    if (appliedFilters?.mappedFilters?.length) {
+      setTicketFilters(
+        appliedFilters.mappedFilters.filter((x) => x.items.length)
+      );
     } else {
       setTicketFilters([]);
     }

@@ -62,3 +62,18 @@ export function isObjectValueNullOrEmpty(
   const allNullOrEmpty = Object.values(obj).every(isNullOrEmpty);
   return allNullOrEmpty;
 }
+
+export function filterEmptyValues<T extends Record<string, any>>(
+  obj: T
+): Partial<T> {
+  const result: Partial<T> = {};
+
+  for (const key in obj) {
+    const value = obj[key];
+    if (value !== null && value !== undefined && value !== "") {
+      result[key] = value;
+    }
+  }
+
+  return result;
+}

@@ -126,19 +126,90 @@ const generateUserInfo = (id: number): UserInfo => {
     })(),
   };
 };
+type TicketTitle = "خدمات سایت" | "مشکل فنی" | "سوال مالی" | "درخواست فروش";
+const ticketSpecificReplies: Record<TicketTitle, string[]> = {
+  "خدمات سایت": [
+    "مشکل دسترسی به خدمات سایت همچنان وجود دارد.",
+    "سرعت لود صفحات سایت بسیار پایین است.",
+    "چرا برخی از امکانات سایت در دسترس نیست؟",
+  ],
+  "مشکل فنی": [
+    "خطای فنی هنگام استفاده از سیستم مشاهده می‌شود.",
+    "سیستم به صورت ناگهانی ریست می‌شود.",
+    "نمایشگر اطلاعات را به درستی نشان نمی‌دهد.",
+  ],
+  "سوال مالی": [
+    "چرا تراکنش من تکمیل نشده است؟",
+    "آیا امکان استرداد وجه وجود دارد؟",
+    "کارمزد تراکنش‌ها افزایش یافته، دلیل چیست؟",
+  ],
+  "درخواست فروش": [
+    "لطفاً موجودی محصول را بررسی کنید.",
+    "چرا محصولی که سفارش دادم ارسال نشده؟",
+    "آیا تخفیف خاصی برای خریدهای عمده دارید؟",
+  ],
+};
 
-const generateReply = (isAdmin: boolean): TicketReply => {
+const generateReply = (
+  isAdmin: boolean,
+  replyIndex: number,
+  ticketTitle: TicketTitle
+): TicketReply => {
+  const adminReplies = [
+    "پاسخ پشتیبانی: لطفاً اطلاعات بیشتری درباره مشکل خود ارائه دهید تا بتوانیم بهتر کمک کنیم.",
+    "پاسخ تیم فنی: مشکل گزارش شده را بررسی کردیم و در حال پیگیری هستیم.",
+    "پاسخ مدیریت: درخواست شما دریافت شد و در حال بررسی است.",
+    "پشتیبانی: لطفاً تصویر یا اسکرین شات از مشکل ارسال نمایید.",
+    "تیم مالی: تراکنش شما بررسی شد و مشکل از طرف بانک بوده است.",
+    "پشتیبانی فنی: مشکل گزارش شده برطرف شد. لطفاً مجدداً بررسی کنید.",
+    "مدیریت: درخواست شما تأیید شد و در حال پردازش است.",
+    "پشتیبانی: برای حل این مشکل لطفاً مراحل راهنمای کاربری را دنبال کنید.",
+  ];
+
+  const userReplies = [
+    "ممنون از پاسخ شما. مشکل همچنان ادامه دارد.",
+    "لطفاً سریعتر مشکل من را بررسی کنید، واقعاً ضروری است!",
+    "من تمام اطلاعات خواسته شده را ارسال کردم.",
+    "آیا راه حل دیگری برای این مشکل وجود دارد؟",
+    "ممنون از کمکتون، مشکل من حل شد.",
+    "من هنوز پاسخ قانع کننده‌ای دریافت نکرده‌ام.",
+    "آیا می‌توانید جزئیات بیشتری در مورد راه حل ارائه دهید؟",
+    "این پاسخ به سوال من مرتبط نیست، لطفاً دقیق‌تر بررسی کنید.",
+  ];
+
+  // 30% chance to get a ticket-specific reply
+  const useSpecificReply = Math.random() < 0.3;
+  let content = "";
+
+  if (isAdmin) {
+    if (useSpecificReply) {
+      const specificReplies = ticketSpecificReplies[ticketTitle];
+      content =
+        specificReplies[Math.floor(Math.random() * specificReplies.length)];
+    } else {
+      content = adminReplies[Math.floor(Math.random() * adminReplies.length)];
+    }
+  } else {
+    if (useSpecificReply) {
+      const specificReplies = ticketSpecificReplies[ticketTitle];
+      content =
+        specificReplies[Math.floor(Math.random() * specificReplies.length)];
+    } else {
+      content = userReplies[Math.floor(Math.random() * userReplies.length)];
+    }
+  }
+
   return {
     user_info: {
       is_admin: isAdmin,
-      name: isAdmin ? "ادمین" : "کاربر",
+      name: isAdmin ? `پشتیبان ${Math.floor(Math.random() * 5) + 1}` : "کاربر",
       avatar: `https://storage.cafearz.com/wp-content/uploads/avatars/${
-        isAdmin ? 10 : Math.floor(Math.random() * 5) + 1
+        isAdmin
+          ? Math.floor(Math.random() * 5) + 6
+          : Math.floor(Math.random() * 5) + 1
       }.png`,
     },
-    content: isAdmin
-      ? "پاسخ پشتیبانی به تیکت شما: لطفا اطلاعات بیشتری ارائه دهید."
-      : "سوال کاربر در مورد خدمات سایت",
+    content,
     date: {
       created_at: getRandomDate(new Date(2024, 0, 1), new Date()),
     },
@@ -147,16 +218,37 @@ const generateReply = (isAdmin: boolean): TicketReply => {
 
 export const generateTickets = (count: number): Ticket[] => {
   const tickets: Ticket[] = [];
+  const ticketTitles: TicketTitle[] = [
+    "خدمات سایت",
+    "مشکل فنی",
+    "سوال مالی",
+    "درخواست فروش",
+  ];
 
   for (let i = 1; i <= count; i++) {
     const createdDate = getRandomDate(new Date(2024, 0, 1), new Date());
     const updatedDate = getRandomDate(new Date(createdDate.milady), new Date());
-    const hasReply = Math.random() > 0.3;
     const department =
       departments[Math.floor(Math.random() * departments.length)];
     const priority = priorities[Math.floor(Math.random() * priorities.length)];
+    const ticketTitle =
+      ticketTitles[Math.floor(Math.random() * ticketTitles.length)];
     const status = statuses[Math.floor(Math.random() * statuses.length)];
     const user = generateUserInfo(Math.floor(Math.random() * 100) + 1);
+
+    // Generate between 0 to 3 replies
+    const replyCount = Math.floor(Math.random() * 4); // 0, 1, 2, or 3
+    const replies: TicketReply[] = [];
+
+    // First reply is always from user (the ticket creator)
+    if (replyCount > 0) {
+      replies.push(generateReply(false, 0, ticketTitle));
+    }
+
+    // Subsequent replies alternate between admin and user
+    for (let j = 1; j < replyCount; j++) {
+      replies.push(generateReply(j % 2 === 1, j, ticketTitle));
+    }
 
     tickets.push({
       id: i.toString(),
@@ -175,11 +267,7 @@ export const generateTickets = (count: number): Ticket[] => {
       seen: Math.floor(Math.random() * 5),
       ticket_id: `TKT-${1000 + i}`,
       fk_department_id: department.key,
-      title: `تیکت ${i} در مورد ${
-        ["خدمات سایت", "مشکل فنی", "سوال مالی", "درخواست فروش"][
-          Math.floor(Math.random() * 4)
-        ]
-      }`,
+      title: `تیکت ${i} در مورد ${ticketTitle}`,
       status,
       user: user,
       user_info: {
@@ -187,8 +275,8 @@ export const generateTickets = (count: number): Ticket[] => {
         name: user.name,
         avatar: user.avatar,
       },
-      content: `<p>متن تیکت شماره ${i} در مورد ${department.value}</p>`,
-      replies: hasReply ? [generateReply(Math.random() > 0.5)] : [],
+      content: `<p>متن تیکت شماره ${i} در مورد ${ticketTitle}</p>`,
+      replies,
     });
   }
 

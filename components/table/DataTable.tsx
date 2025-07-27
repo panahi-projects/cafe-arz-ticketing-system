@@ -78,7 +78,7 @@ const DataTable = <T,>({
       <Paper elevation={1} sx={{ borderRadius: 4, overflow: "hidden" }}>
         {/* 1. Filters */}
         <Box sx={{ p: { xs: 1, sm: 2 }, pb: { xs: 1, sm: 0.5 } }}>
-          <DataTableToolbar>{filters}</DataTableToolbar>
+          <DataTableToolbar>{total}</DataTableToolbar>
         </Box>
 
         {/* 2. Summary tags */}
