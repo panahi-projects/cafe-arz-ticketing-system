@@ -33,7 +33,7 @@ export type SummaryItem = {
 };
 export type FiletItem = {
   key: string;
-  label?: string;
+  label?: string | number;
 };
 export type AppliedFilter = {
   key: string;
@@ -52,6 +52,7 @@ type Props<T> = {
   appliedFilters?: AppliedFilter[];
   rowsPerPage?: number;
   onRemoveFilter?: (filter: string) => void;
+  onRemoveAllFilters?: () => void;
   loading?: boolean;
 };
 
@@ -66,6 +67,7 @@ const DataTable = <T,>({
   appliedFilters,
   rowsPerPage,
   onRemoveFilter,
+  onRemoveAllFilters,
   loading = false,
 }: Props<T>) => {
   const theme = useTheme();
@@ -94,14 +96,15 @@ const DataTable = <T,>({
         )}
 
         {/* 3. Applied filters */}
-        {appliedFilters?.length && (
+        {appliedFilters?.length ? (
           <Box sx={{ p: { xs: 1, sm: 2 }, pt: 0 }}>
             <DataTableFilterChips
               filters={appliedFilters}
               onRemove={onRemoveFilter}
+              onRemoveAll={onRemoveAllFilters}
             />
           </Box>
-        )}
+        ) : null}
 
         {/* 4. Table */}
         <TableContainer

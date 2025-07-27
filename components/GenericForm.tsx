@@ -42,12 +42,14 @@ export interface GenericFormProps {
     };
     fields: FormField[];
   };
+  values?: Record<string, unknown>;
   onSubmit?: (data: Record<string, unknown>) => void;
   onSuccess?: () => void;
 }
 
 const GenericForm: React.FC<GenericFormProps> = ({
   schema,
+  values,
   onSubmit,
   onSuccess,
 }) => {
@@ -113,10 +115,15 @@ const GenericForm: React.FC<GenericFormProps> = ({
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(validationSchema),
-    defaultValues: schema.fields.reduce((acc, field) => {
-      acc[field.name as keyof FormData] = field.value as never;
-      return acc;
-    }, {} as FormData),
+    defaultValues: {
+      // First use values from the schema.fields
+      ...schema.fields.reduce((acc, field) => {
+        acc[field.name as keyof FormData] = field.value as never;
+        return acc;
+      }, {} as FormData),
+      // Then override with values from props.values if provided
+      ...(values || {}),
+    },
   });
 
   const handleReset = () => {

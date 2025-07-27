@@ -51,6 +51,8 @@ const FilterChip = ({ id, items, onRemove }: FilterChipProps) => {
 
 const DataTableFilterChips = ({ filters, onRemove, onRemoveAll }: Props) => {
   const isMobile = useMediaQuery("(max-width:768px)");
+  if (!filters.length) return null;
+
   return (
     <Box display="flex" gap={4} alignItems={"center"} flexWrap="wrap">
       <Box

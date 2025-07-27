@@ -1,1 +1,1 @@
-export { FilterMap } from "./filters";
+export { FilterMap, DepartmentMap } from "./filters";

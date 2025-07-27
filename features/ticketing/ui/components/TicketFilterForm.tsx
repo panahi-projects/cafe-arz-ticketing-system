@@ -3,6 +3,10 @@
 import { Typography } from "@mui/material";
 import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
 import GenericForm, { GenericFormProps } from "@/components/GenericForm";
+import { isObjectValueNullOrEmpty } from "@/lib/utils";
+import { generateFilterObject } from "../../lib";
+import { AppliedFilter } from "@/components/table/DataTable";
+import { DepartmentMap } from "../../constants";
 
 interface TicketFilterFormProps {
   onSuccess?: () => void;
@@ -16,10 +20,21 @@ export default function TicketFilterForm({ onSuccess }: TicketFilterFormProps) {
     },
   };
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: Record<string, unknown>) => {
     console.log("Form submitted with data:", data);
-    setAppliedFilters(data);
-    return true; // Return true to indicate successful validation
+    if (data && !isObjectValueNullOrEmpty(data)) {
+      const mappers = [
+        {
+          key: "fk_department_id",
+          values: DepartmentMap,
+        },
+      ];
+      const filters = generateFilterObject(data, mappers);
+      setAppliedFilters(filters);
+    } else {
+      setAppliedFilters([]);
+    }
+    return true;
   };
 
   return (

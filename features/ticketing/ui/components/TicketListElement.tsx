@@ -1,9 +1,11 @@
-import DataTable, { Column } from "@/components/table/DataTable";
+import DataTable, { AppliedFilter, Column } from "@/components/table/DataTable";
 import { Box, Button, Typography } from "@mui/material";
 import { Ticket, TicketStatus, UserInfo } from "../../types";
 import TicketUserInfo from "./TicketUserInfo";
 import TicketStatusChip from "./TicketStatusChip";
 import { Eye } from "@/lib/icons";
+import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
+import { useEffect, useState } from "react";
 
 interface TicketListElementProps {
   tickets: Ticket[];
@@ -24,6 +26,17 @@ const TicketListElement = ({
   handlePageChange,
   onFilterChange,
 }: TicketListElementProps) => {
+  const { appliedFilters, clearAllAppliedFilters, removeAppliedFilter } =
+    useTicketFilterStore();
+  const [ticketFilters, setTicketFilters] = useState<AppliedFilter[]>([]);
+  useEffect(() => {
+    if (appliedFilters.length) {
+      setTicketFilters(appliedFilters.filter((x) => x.items.length));
+    } else {
+      setTicketFilters([]);
+    }
+  }, [appliedFilters]);
+
   const columns: Column<Ticket>[] = [
     { id: "ticket_id", label: "شناسه" },
     {
@@ -107,6 +120,10 @@ const TicketListElement = ({
       ),
     },
   ];
+
+  const onRemoveAllFilters = () => {
+    clearAllAppliedFilters();
+  };
   return (
     <Box position="relative">
       <DataTable
@@ -122,33 +139,9 @@ const TicketListElement = ({
           { label: "پاسخ داده شده", count: 24, key: "ANSWERED" },
           { label: "حل شده", count: 10, key: "RESOLVED" },
         ]}
-        appliedFilters={[
-          {
-            key: "status",
-            label: "وضعیت",
-            items: [
-              {
-                key: "NOANSWER",
-                label: "NOANSWER",
-              },
-              {
-                key: "PENDING",
-                label: "PENDING",
-              },
-            ],
-          },
-          {
-            key: "name",
-            label: "نام و نام خانوادگی",
-            items: [
-              {
-                key: "TEST",
-                label: "تست",
-              },
-            ],
-          },
-        ]}
-        onRemoveFilter={(f) => console.log("remove filter", f)}
+        appliedFilters={ticketFilters}
+        onRemoveFilter={(f) => removeAppliedFilter(f)}
+        onRemoveAllFilters={onRemoveAllFilters}
         filters={
           <>
             <Button size="small" variant="outlined">

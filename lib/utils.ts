@@ -51,3 +51,14 @@ export function getPageTitle(
   const items = getBreadcrumbItems(pathname, menuItems);
   return items.length > 0 ? items[items.length - 1].label : undefined;
 }
+
+export function isNullOrEmpty(value: unknown): boolean {
+  return value === null || value === "";
+}
+
+export function isObjectValueNullOrEmpty(
+  obj: Record<string, unknown>
+): boolean {
+  const allNullOrEmpty = Object.values(obj).every(isNullOrEmpty);
+  return allNullOrEmpty;
+}

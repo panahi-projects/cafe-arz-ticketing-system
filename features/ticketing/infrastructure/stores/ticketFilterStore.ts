@@ -6,9 +6,9 @@ export interface FormFieldAttributes {
   [key: string]: any;
 }
 
-interface AppliedFilterItem {
+export interface AppliedFilterItem {
   key: string;
-  label: string;
+  label: string | number;
 }
 
 interface AppliedFilter {
@@ -30,7 +30,9 @@ interface FilterActions {
   setFilters: (filters: FormField[]) => void;
   setAppliedFilters: (filters: AppliedFilter[]) => void;
   removeFilter: (key: string) => void;
+  removeAppliedFilter: (key: string) => void;
   clearAllFilters: () => void;
+  clearAllAppliedFilters: () => void;
   reset: () => void;
 }
 
@@ -54,7 +56,12 @@ export const useTicketFilterStore = create<FilterState & FilterActions>()(
           filters: state.filters.filter((f) => f.name !== key),
           appliedFilters: state.appliedFilters.filter((f) => f.key !== key),
         })),
+      removeAppliedFilter: (key) =>
+        set((state) => ({
+          appliedFilters: state.appliedFilters.filter((f) => f.key !== key),
+        })),
       clearAllFilters: () => set({ filters: [], appliedFilters: [] }),
+      clearAllAppliedFilters: () => set({ appliedFilters: [] }),
       reset: () => set(initialState),
     }),
     {
