@@ -23,6 +23,7 @@ export interface MenuItem {
   icon?: IconKey;
   children?: MenuItem[] | null;
   showInBreadcrumbs?: boolean;
+  showInMenu?: boolean;
 }
 
 export interface LogoProps extends BoxProps {

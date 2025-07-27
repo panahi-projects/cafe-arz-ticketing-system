@@ -114,7 +114,8 @@ export interface Ticket {
 }
 
 export interface TicketResponse {
-  ticket: Ticket;
+  ticket?: Ticket;
+  error?: string;
 }
 
 export interface TicketListResponse {
@@ -158,4 +159,8 @@ export interface TicketStatusChipProps {
 export interface Mapper {
   key: string;
   values: Record<string | number, string | number | boolean>;
+}
+
+export interface RouteParams {
+  params: { id: string };
 }

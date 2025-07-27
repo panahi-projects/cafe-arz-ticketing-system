@@ -4,7 +4,7 @@ import { Ticket, TicketListResponse } from "@/features/ticketing/types";
 import { FormField } from "@/types";
 
 export async function GET(request: Request) {
-  const ticketsData = getTicketsData();
+  const ticketsData = await getTicketsData();
   const { searchParams } = new URL(request.url);
 
   // Pagination
@@ -298,7 +298,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const ticketsData = getTicketsData();
+  const ticketsData = await getTicketsData();
   const body = await request.json();
 
   const newTicket: Ticket = {
@@ -328,13 +328,13 @@ export async function POST(request: Request) {
     replies: [],
   };
 
-  setTicketsData([newTicket, ...ticketsData]);
+  await setTicketsData([newTicket, ...ticketsData]);
 
   return NextResponse.json(newTicket, { status: 201 });
 }
 
 export async function PUT(request: Request) {
-  const ticketsData = getTicketsData();
+  const ticketsData = await getTicketsData();
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   const body = await request.json();
@@ -365,7 +365,7 @@ export async function PUT(request: Request) {
     },
   };
 
-  setTicketsData([
+  await setTicketsData([
     ...ticketsData.slice(0, index),
     updatedTicket,
     ...ticketsData.slice(index + 1),
@@ -375,7 +375,7 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  const ticketsData = getTicketsData();
+  const ticketsData = await getTicketsData();
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
 
@@ -390,7 +390,7 @@ export async function DELETE(request: Request) {
   }
 
   const newData = ticketsData.filter((ticket) => ticket.id !== id);
-  setTicketsData(newData);
+  await setTicketsData(newData);
 
   return NextResponse.json({ success: true });
 }

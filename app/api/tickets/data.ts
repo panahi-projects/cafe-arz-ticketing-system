@@ -285,7 +285,9 @@ export const generateTickets = (count: number): Ticket[] => {
 
 let _ticketsData: Ticket[] = generateTickets(100);
 
-export const getTicketsData = () => _ticketsData;
-export const setTicketsData = (newData: Ticket[]) => {
+export const getTicketsData = async (): Promise<Ticket[]> => {
+  return _ticketsData;
+};
+export const setTicketsData = async (newData: Ticket[]): Promise<void> => {
   _ticketsData = newData;
 };

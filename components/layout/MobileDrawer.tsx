@@ -100,6 +100,7 @@ const MobileDrawer = ({ open, onClose }: MobileDrawerProps) => {
           {menuItems.map((item: MenuItem) => {
             const active = isActive(item);
             const hasChildren = !!item.children;
+            if (item.showInMenu === false) return null;
 
             return (
               <Box key={item.key}>

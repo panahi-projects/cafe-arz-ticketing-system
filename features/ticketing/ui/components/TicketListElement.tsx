@@ -1,12 +1,14 @@
+"use client";
 import DataTable from "@/components/table/DataTable";
 import { Eye } from "@/lib/icons";
-import { Box, Button, Typography } from "@mui/material";
+import { AppliedFilter, Column } from "@/types";
+import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
 import { Ticket, TicketListElementProps, UserInfo } from "../../types";
 import TicketStatusChip from "./TicketStatusChip";
 import TicketUserInfo from "./TicketUserInfo";
-import { AppliedFilter, Column } from "@/types";
+import { useRouter } from "next/navigation";
 
 const TicketListElement = ({
   tickets,
@@ -15,6 +17,7 @@ const TicketListElement = ({
   total,
   handlePageChange,
 }: TicketListElementProps) => {
+  const router = useRouter();
   const { appliedFilters, clearAllAppliedFilters, removeAppliedFilter } =
     useTicketFilterStore();
 
@@ -28,6 +31,10 @@ const TicketListElement = ({
       setTicketFilters([]);
     }
   }, [appliedFilters]);
+
+  const onRedirectToTicketDetail = (ticketId: string) => {
+    router.push(`/dashboard/tickets/${ticketId}`);
+  };
 
   const columns: Column<Ticket>[] = [
     { id: "ticket_id", label: "شناسه" },
@@ -87,7 +94,10 @@ const TicketListElement = ({
       id: "user_info",
       label: "عملیات",
       render: (row) => (
-        <Box sx={{ color: "text.dark" }}>
+        <Box
+          onClick={() => onRedirectToTicketDetail(row.id)}
+          sx={{ color: "text.dark", p: 2, cursor: "pointer" }}
+        >
           <Eye size={18} />
         </Box>
       ),
@@ -115,16 +125,6 @@ const TicketListElement = ({
         appliedFilters={ticketFilters}
         onRemoveFilter={(f) => removeAppliedFilter(f)}
         onRemoveAllFilters={onRemoveAllFilters}
-        filters={
-          <>
-            <Button size="small" variant="outlined">
-              پاسخ داده نشده
-            </Button>
-            <Button size="small" variant="outlined">
-              در حال بررسی
-            </Button>
-          </>
-        }
       />
     </Box>
   );

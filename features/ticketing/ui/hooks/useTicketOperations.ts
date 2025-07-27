@@ -2,17 +2,24 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useTicketService } from "../../context/TicketServiceContext";
-import { TicketListResponse } from "../../types";
+import { TicketListResponse, TicketResponse } from "../../types";
 
 export const useTicketOperations = () => {
   const ticketService = useTicketService();
 
-  // Cache state
+  // Cache state for tickets list
   const [cache, setCache] = useState<{
     data: TicketListResponse | null;
     loading: boolean;
     error: Error | null;
   }>({ data: null, loading: true, error: null });
+
+  // Cache state for single ticket
+  const [ticketCache, setTicketCache] = useState<{
+    data: TicketResponse | null;
+    loading: boolean;
+    error: Error | null;
+  }>({ data: null, loading: false, error: null });
 
   const fetchTickets = useCallback(
     async (
@@ -59,6 +66,32 @@ export const useTicketOperations = () => {
     [ticketService]
   );
 
+  const fetchTicketById = useCallback(
+    async (id: string, signal?: AbortSignal) => {
+      try {
+        setTicketCache((prev) => ({ ...prev, loading: true, error: null }));
+
+        const result = await ticketService.getTicketById(id, { signal });
+
+        setTicketCache({
+          data: result,
+          loading: false,
+          error: null,
+        });
+
+        return result;
+      } catch (err) {
+        if (!signal?.aborted) {
+          const error =
+            err instanceof Error ? err : new Error("Failed to fetch ticket");
+          setTicketCache((prev) => ({ ...prev, error, loading: false }));
+          throw error;
+        }
+      }
+    },
+    [ticketService]
+  );
+
   const useTickets = (page: number, pageSize: number, filters = {}) => {
     useEffect(() => {
       const abortController = new AbortController();
@@ -74,5 +107,22 @@ export const useTicketOperations = () => {
     };
   };
 
-  return { useTickets };
+  const useTicketById = (id: string) => {
+    useEffect(() => {
+      if (!id) return;
+
+      const abortController = new AbortController();
+      fetchTicketById(id, abortController.signal);
+      return () => abortController.abort();
+    }, [id, fetchTicketById]);
+
+    return {
+      data: ticketCache.data,
+      loading: ticketCache.loading,
+      error: ticketCache.error,
+      refetch: () => fetchTicketById(id),
+    };
+  };
+
+  return { useTickets, useTicketById };
 };
