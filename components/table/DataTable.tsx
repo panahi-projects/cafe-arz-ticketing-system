@@ -62,7 +62,6 @@ const DataTable = <T,>({
   page,
   total,
   onPageChange,
-  filters,
   summaryItems,
   appliedFilters,
   rowsPerPage,

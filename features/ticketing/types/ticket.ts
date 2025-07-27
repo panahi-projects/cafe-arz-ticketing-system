@@ -1,4 +1,4 @@
-import { FormField } from "@/components/GenericForm";
+import { FormField } from "@/types";
 
 export interface DateInfo {
   time: string;

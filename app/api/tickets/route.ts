@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTicketsData, setTicketsData } from "./data";
-import { FormField } from "@/components/GenericForm";
 import { Ticket, TicketListResponse } from "@/features/ticketing/types";
+import { FormField } from "@/types";
 
 export async function GET(request: Request) {
   const ticketsData = getTicketsData();

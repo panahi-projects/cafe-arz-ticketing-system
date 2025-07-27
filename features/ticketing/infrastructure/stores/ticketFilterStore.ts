@@ -1,4 +1,4 @@
-import { FormField } from "@/components/GenericForm";
+import { FormField } from "@/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

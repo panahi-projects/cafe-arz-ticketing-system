@@ -1,10 +1,11 @@
 "use client";
 import { Typography } from "@mui/material";
 import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
-import GenericForm, { GenericFormProps } from "@/components/GenericForm";
 import { isObjectValueNullOrEmpty } from "@/lib/utils";
 import { generateFilterObject } from "../../lib";
 import { DepartmentMap } from "../../constants";
+import { GenericFormProps } from "@/types";
+import GenericForm from "@/components/form/GenericForm";
 
 interface TicketFilterFormProps {
   onSuccess?: () => void;
@@ -48,6 +49,7 @@ export default function TicketFilterForm({ onSuccess }: TicketFilterFormProps) {
         onSubmit={handleSubmit}
         onSuccess={onSuccess}
         values={appliedFilters.rawFilters}
+        strictValidation={false}
       />
     </div>
   );

@@ -63,7 +63,7 @@ export function isObjectValueNullOrEmpty(
   return allNullOrEmpty;
 }
 
-export function filterEmptyValues<T extends Record<string, any>>(
+export function filterEmptyValues<T extends Record<string, unknown>>(
   obj: T
 ): Partial<T> {
   const result: Partial<T> = {};
