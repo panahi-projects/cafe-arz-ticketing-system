@@ -1,9 +1,10 @@
 "use client";
 import { Alert, Box, CircularProgress } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import TicketListElement from "../components/TicketListElement";
 import { useTicketOperations } from "../hooks/useTicketOperations";
+import { useTicketFilterStore } from "../../infrastructure/stores/ticketFilterStore";
 
 // Default values
 const DEFAULT_PAGE = 1;
@@ -12,6 +13,7 @@ const DEFAULT_PAGE_SIZE = 20;
 const TicketsList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { setFilters } = useTicketFilterStore();
 
   // Get params from URL or use defaults
   const page = parseInt(searchParams.get("page") || DEFAULT_PAGE.toString());
@@ -37,6 +39,14 @@ const TicketsList = () => {
     pageSize,
     filters
   );
+
+  useEffect(() => {
+    if (data?.filters) {
+      console.log("Filters form is updated!");
+
+      setFilters(data.filters);
+    }
+  }, [data]);
 
   // Update URL when pagination or filters change
   const updateUrlParams = (newPage: number, newFilters = filters) => {

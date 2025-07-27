@@ -132,7 +132,7 @@ const DataTableFilter = () => {
               },
             }}
           >
-            <TicketFilterForm />
+            <TicketFilterForm onSuccess={handleClose} />
           </Box>
         </Box>
       </Modal>

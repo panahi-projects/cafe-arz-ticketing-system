@@ -1,3 +1,5 @@
+import { FormField } from "@/components/GenericForm";
+
 export interface DateInfo {
   time: string;
   jalali: string;
@@ -122,5 +124,5 @@ export interface TicketListResponse {
     per_page: number;
     last_page: number;
   };
-  filters: TicketFilter[];
+  filters: FormField[];
 }

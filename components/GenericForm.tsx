@@ -31,24 +31,32 @@ export interface FormField {
   name: string;
   label: string;
   value: string | number | (string | number)[];
-  options: FormFieldOption[];
-  attr: FormFieldAttributes | unknown[];
+  options?: FormFieldOption[];
+  attr?: FormFieldAttributes | unknown[];
 }
 
 export interface GenericFormProps {
   schema: {
-    filters: FormField[];
+    submitButton?: {
+      text: string;
+    };
+    fields: FormField[];
   };
   onSubmit?: (data: Record<string, unknown>) => void;
+  onSuccess?: () => void;
 }
 
-const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
+const GenericForm: React.FC<GenericFormProps> = ({
+  schema,
+  onSubmit,
+  onSuccess,
+}) => {
   const isMobile = useMediaQuery("(max-width:768px)");
 
   const generateValidationSchema = () => {
     const schemaObj: Record<string, z.ZodTypeAny> = {};
 
-    schema.filters.forEach((field) => {
+    schema.fields.forEach((field) => {
       if (field.type === "text") {
         let validator = z.string().optional();
 
@@ -105,14 +113,14 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(validationSchema),
-    defaultValues: schema.filters.reduce((acc, field) => {
+    defaultValues: schema.fields.reduce((acc, field) => {
       acc[field.name as keyof FormData] = field.value as never;
       return acc;
     }, {} as FormData),
   });
 
   const handleReset = () => {
-    const resetValues = schema.filters.reduce((acc, field) => {
+    const resetValues = schema.fields.reduce((acc, field) => {
       if (field.type === "select") {
         // For select fields, reset based on their multiple/single type
         acc[field.name] =
@@ -129,10 +137,23 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
     reset(resetValues);
   };
 
+  const handleFormSubmit = async (data: Record<string, unknown>) => {
+    try {
+      if (onSubmit) {
+        await onSubmit(data);
+        if (onSuccess) {
+          onSuccess();
+        }
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
+  };
+
   return (
-    <form onSubmit={onSubmit && handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
       <Grid container spacing={2} columns={16}>
-        {schema.filters.map((field) => (
+        {schema.fields.map((field) => (
           <Grid key={field.name} size={!isMobile ? 8 : 16}>
             {field.type === "text" ? (
               <FormControl fullWidth sx={{ my: 0.5 }}>
@@ -220,7 +241,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
                     },
                   }}
                 >
-                  {field.options.map((option) => (
+                  {field.options?.map((option) => (
                     <MenuItem key={option._id.toString()} value={option._id}>
                       {option.value}
                     </MenuItem>
@@ -253,7 +274,7 @@ const GenericForm: React.FC<GenericFormProps> = ({ schema, onSubmit }) => {
                 py: 1.2,
               }}
             >
-              جستجو
+              {(schema.submitButton && schema.submitButton?.text) || "جستجو"}
             </Button>
           </Grid>
           <Grid size={8}>
