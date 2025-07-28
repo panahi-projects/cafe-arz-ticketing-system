@@ -30,7 +30,7 @@ describe("TicketAPI", () => {
 
     const result = await TicketApi.getTickets(params);
 
-    expect(ticketingApi.get).toHaveBeenCalledWith("/test-api", { params });
+    expect(ticketingApi.get).toHaveBeenCalledWith("/tickets", { params });
     expect(result).toEqual(mockTicketResponse);
   });
 
@@ -39,7 +39,7 @@ describe("TicketAPI", () => {
 
     const result = await TicketApi.getTickets();
 
-    expect(ticketingApi.get).toHaveBeenCalledWith("/test-api", {
+    expect(ticketingApi.get).toHaveBeenCalledWith("/tickets", {
       params: undefined,
     });
     expect(result).toEqual(mockTicketResponse);
@@ -51,7 +51,7 @@ describe("TicketAPI", () => {
 
     await TicketApi.getTickets({}, { signal: abortController.signal });
 
-    expect(ticketingApi.get).toHaveBeenCalledWith("/test-api", {
+    expect(ticketingApi.get).toHaveBeenCalledWith("/tickets", {
       params: {},
       signal: abortController.signal,
     });
