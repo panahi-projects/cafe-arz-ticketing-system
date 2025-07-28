@@ -30,6 +30,11 @@ export interface GenericFormProps {
   onSubmit?: (data: Record<string, unknown>) => void;
   onSuccess?: () => void;
   strictValidation?: boolean;
+  showButtons?: boolean;
+  column?: {
+    sm: number;
+    md: number;
+  };
 }
 
 export type FormData = z.infer<ReturnType<typeof generateValidationSchema>>;

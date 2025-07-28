@@ -18,6 +18,12 @@ export interface UserVerification {
   };
 }
 
+export interface Shahkar {
+  color: string;
+  label: string;
+  key: string;
+}
+
 export interface UserInfo {
   id: number;
   mobile: string;
@@ -36,11 +42,7 @@ export interface UserInfo {
   status: number;
   legal: boolean;
   tfa_type: string;
-  shahkar: {
-    color: string;
-    label: string;
-    key: string;
-  };
+  shahkar: Shahkar;
   balance: number;
   verify: {
     mobile?: boolean;

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useMediaQuery } from "@mui/material";
 import { useTicketOperations } from "../hooks/useTicketOperations";
 import { TicketActionBox } from "../components/TicketActionBox";
 import TicketDetailSummary from "../components/TicketDetailSummary";
@@ -13,6 +13,7 @@ interface TicketDetailProps {
 const TicketDetail = ({ id }: TicketDetailProps) => {
   const { data: ticketData, loading: ticketLoading } =
     useTicketOperations().useTicketById(id);
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   if (ticketLoading) {
     return <div>Loading...</div>;
@@ -28,11 +29,15 @@ const TicketDetail = ({ id }: TicketDetailProps) => {
       }}
     >
       <Grid container spacing={2} flexShrink={0}>
-        <Grid size={6}>
-          <TicketActionBox />
+        <Grid size={isMobile ? 12 : 6}>
+          <TicketActionBox
+            status={ticketData?.ticket?.status.key}
+            fk_department_id={ticketData?.ticket?.fk_department.key}
+            referTo={ticketData?.ticket?.fk_agent_id || ""}
+          />
         </Grid>
-        <Grid size={6}>
-          <TicketDetailSummary />
+        <Grid size={isMobile ? 12 : 6}>
+          <TicketDetailSummary {...ticketData?.ticket?.user} />
         </Grid>
       </Grid>
       <Box

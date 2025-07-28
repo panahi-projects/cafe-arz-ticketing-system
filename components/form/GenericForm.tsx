@@ -17,6 +17,8 @@ const GenericForm: React.FC<GenericFormProps> = ({
   onSubmit,
   onSuccess,
   strictValidation = true,
+  showButtons = true,
+  column = { sm: 12, md: 6 },
 }) => {
   const isMobile = useMediaQuery("(max-width:768px)");
   const validationSchema = generateValidationSchema(
@@ -63,9 +65,9 @@ const GenericForm: React.FC<GenericFormProps> = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <Grid container spacing={2} columns={16}>
+        <Grid container spacing={2} columns={12}>
           {schema.fields.map((field) => (
-            <Grid key={field.name} size={!isMobile ? 8 : 16}>
+            <Grid key={field.name} size={!isMobile ? column.md : column.sm}>
               {field.type === "text" ? (
                 <FormTextField
                   field={field}
@@ -83,47 +85,50 @@ const GenericForm: React.FC<GenericFormProps> = ({
               ) : null}
             </Grid>
           ))}
-          <Grid
-            container
-            spacing={2}
-            columns={16}
-            size={16}
-            sx={{
-              borderTop: "2px solid",
-              borderColor: "gray.300",
-              pt: 2,
-              mt: 2,
-            }}
-          >
-            <Grid size={8}>
-              <Button
-                fullWidth
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{
-                  borderRadius: "8px",
-                  py: 1.2,
-                }}
-              >
-                {(schema.submitButton && schema.submitButton?.text) || "جستجو"}
-              </Button>
+          {showButtons && (
+            <Grid
+              container
+              spacing={2}
+              columns={16}
+              size={16}
+              sx={{
+                borderTop: "2px solid",
+                borderColor: "gray.300",
+                pt: 2,
+                mt: 2,
+              }}
+            >
+              <Grid size={8}>
+                <Button
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    borderRadius: "8px",
+                    py: 1.2,
+                  }}
+                >
+                  {(schema.submitButton && schema.submitButton?.text) ||
+                    "جستجو"}
+                </Button>
+              </Grid>
+              <Grid size={8}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={handleReset}
+                  color="secondary"
+                  sx={{
+                    borderRadius: "8px",
+                    py: 1,
+                  }}
+                >
+                  ریست
+                </Button>
+              </Grid>
             </Grid>
-            <Grid size={8}>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={handleReset}
-                color="secondary"
-                sx={{
-                  borderRadius: "8px",
-                  py: 1,
-                }}
-              >
-                ریست
-              </Button>
-            </Grid>
-          </Grid>
+          )}
         </Grid>
       </form>
     </FormProvider>

@@ -1,4 +1,4 @@
-import { Box, Card } from "@mui/material";
+import { Card } from "@mui/material";
 
 const TicketReplyBox = () => {
   return (
@@ -9,8 +9,7 @@ const TicketReplyBox = () => {
         p: 2,
       }}
     >
-      {/* Replace with your content */}
-      Reply box with content that scrolls when too tall
+      Reply box
     </Card>
   );
 };

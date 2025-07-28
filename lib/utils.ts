@@ -77,3 +77,7 @@ export function filterEmptyValues<T extends Record<string, unknown>>(
 
   return result;
 }
+
+export function formatPrice(value: number): string {
+  return value.toLocaleString("en-US");
+}
