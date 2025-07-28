@@ -1,4 +1,5 @@
 import { Card } from "@mui/material";
+import ChatBox from "./ChatBox";
 
 const TicketReplyBox = () => {
   return (
@@ -7,9 +8,10 @@ const TicketReplyBox = () => {
         height: "100%",
         overflowY: "auto",
         p: 2,
+        borderRadius: "12px",
       }}
     >
-      Reply box
+      <ChatBox />
     </Card>
   );
 };
