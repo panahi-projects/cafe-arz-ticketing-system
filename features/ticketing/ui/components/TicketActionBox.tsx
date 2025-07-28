@@ -58,6 +58,10 @@ export const TicketActionBox = ({
           attr: {
             select_type: "single",
           },
+          grid: {
+            sm: 12,
+            md: 4,
+          },
         },
         {
           type: "select",
@@ -84,6 +88,10 @@ export const TicketActionBox = ({
           ],
           attr: {
             select_type: "single",
+          },
+          grid: {
+            sm: 12,
+            md: 4,
           },
         },
         {
@@ -115,6 +123,10 @@ export const TicketActionBox = ({
           ],
           attr: {
             select_type: "single",
+          },
+          grid: {
+            sm: 12,
+            md: 4,
           },
         },
       ],

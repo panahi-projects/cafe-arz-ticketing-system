@@ -19,6 +19,8 @@ export const FormTextField = ({ field, error }: FormFieldProps) => {
             variant="outlined"
             error={!!error}
             helperText={error}
+            multiline={!!field.multiline}
+            rows={field.rows || 1}
             InputLabelProps={{
               shrink: true,
               sx: {

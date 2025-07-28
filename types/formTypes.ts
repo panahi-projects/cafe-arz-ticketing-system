@@ -1,3 +1,4 @@
+import { SxProps, Theme } from "@mui/material";
 import { z } from "zod";
 
 export interface FormFieldOption {
@@ -17,13 +18,33 @@ export interface FormField {
   value: string | number | (string | number)[];
   options?: FormFieldOption[];
   attr?: FormFieldAttributes | unknown[];
+  grid?: {
+    xs?: number;
+    sm?: number;
+    md?: number;
+    lg?: number;
+    xl?: number;
+  };
+  multiline?: boolean;
+  rows?: number;
+  order?: number;
 }
+
+export type ButtonConfig = {
+  text?: string;
+  variant?: "text" | "outlined" | "contained";
+  color?: "primary" | "secondary" | "success" | "error" | "info" | "warning";
+  grid?: {
+    sm?: number;
+    md?: number;
+  };
+  sx?: SxProps<Theme>;
+};
 
 export interface GenericFormProps {
   schema: {
-    submitButton?: {
-      text: string;
-    };
+    submitButton?: ButtonConfig;
+    resetButton?: ButtonConfig;
     fields: FormField[];
   };
   values?: Record<string, unknown>;

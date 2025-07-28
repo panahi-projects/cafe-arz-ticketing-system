@@ -65,71 +65,82 @@ const GenericForm: React.FC<GenericFormProps> = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <Grid container spacing={2} columns={12}>
-          {schema.fields.map((field) => (
-            <Grid key={field.name} size={!isMobile ? column.md : column.sm}>
-              {field.type === "text" ? (
-                <FormTextField
-                  field={field}
-                  error={
-                    methods.formState.errors[field.name]?.message as string
-                  }
-                />
-              ) : field.type === "select" ? (
-                <FormSelectField
-                  field={field}
-                  error={
-                    methods.formState.errors[field.name]?.message as string
-                  }
-                />
-              ) : null}
-            </Grid>
-          ))}
-          {showButtons && (
-            <Grid
-              container
-              spacing={2}
-              columns={16}
-              size={16}
-              sx={{
-                borderTop: "2px solid",
-                borderColor: "gray.300",
-                pt: 2,
-                mt: 2,
-              }}
-            >
-              <Grid size={8}>
-                <Button
-                  fullWidth
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    borderRadius: "8px",
-                    py: 1.2,
-                  }}
-                >
-                  {(schema.submitButton && schema.submitButton?.text) ||
-                    "جستجو"}
-                </Button>
+        <Grid container spacing={2}>
+          {schema.fields
+            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) // sort by `order`
+            .map((field) => (
+              <Grid
+                key={field.name}
+                size={isMobile ? field.grid?.sm ?? 12 : field.grid?.md ?? 6}
+              >
+                {field.type === "text" ? (
+                  <FormTextField
+                    field={field}
+                    error={
+                      methods.formState.errors[field.name]?.message as string
+                    }
+                  />
+                ) : field.type === "select" ? (
+                  <FormSelectField
+                    field={field}
+                    error={
+                      methods.formState.errors[field.name]?.message as string
+                    }
+                  />
+                ) : null}
               </Grid>
-              <Grid size={8}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  onClick={handleReset}
-                  color="secondary"
-                  sx={{
-                    borderRadius: "8px",
-                    py: 1,
-                  }}
-                >
-                  ریست
-                </Button>
-              </Grid>
-            </Grid>
-          )}
+            ))}
         </Grid>
+        {/* Buttons */}
+        {showButtons && (
+          <Grid
+            container
+            spacing={2}
+            sx={{ borderTop: "2px solid #ccc", mt: 2, pt: 2 }}
+          >
+            {/* Submit Button */}
+            <Grid
+              // item
+              // xs={schema.submitButton?.grid?.xs ?? 12}
+              // sm={schema.submitButton?.grid?.sm ?? 6}
+              // md={schema.submitButton?.grid?.md ?? 6}
+              size={
+                isMobile
+                  ? schema.submitButton?.grid?.sm ?? 12
+                  : schema.submitButton?.grid?.md ?? 6
+              }
+            >
+              <Button
+                type="submit"
+                fullWidth
+                variant={schema.submitButton?.variant ?? "contained"}
+                color={schema.submitButton?.color ?? "primary"}
+                sx={schema.submitButton?.sx}
+              >
+                {schema.submitButton?.text ?? "ارسال تیکت"}
+              </Button>
+            </Grid>
+
+            {/* Reset Button */}
+            <Grid
+              size={
+                isMobile
+                  ? schema.submitButton?.grid?.sm ?? 12
+                  : schema.submitButton?.grid?.md ?? 6
+              }
+            >
+              <Button
+                fullWidth
+                variant={schema.resetButton?.variant ?? "outlined"}
+                color={schema.resetButton?.color ?? "secondary"}
+                onClick={handleReset}
+                sx={schema.resetButton?.sx}
+              >
+                {schema.resetButton?.text ?? "ریست"}
+              </Button>
+            </Grid>
+          </Grid>
+        )}
       </form>
     </FormProvider>
   );

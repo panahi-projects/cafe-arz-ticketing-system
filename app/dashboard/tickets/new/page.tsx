@@ -1,7 +1,8 @@
+import TicketNew from "@/features/ticketing/ui/pages/TicketNew";
 import React from "react";
 
 const TicketNewPage = () => {
-  return <div>Ticket New Page</div>;
+  return <TicketNew />;
 };
 
 export default TicketNewPage;
