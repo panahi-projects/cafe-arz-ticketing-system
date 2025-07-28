@@ -1,25 +1,28 @@
-import { NextResponse } from "next/server";
-import { getTicketsData, setTicketsData } from "../data";
-import { RouteParams, Ticket } from "@/features/ticketing/types";
+import { NextRequest, NextResponse } from "next/server";
+import { getTicketsData } from "../data";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: Request, context: Promise<RouteParams>) {
-  const { params } = await context; // ✅ Await it here
+export async function GET(
+  request: NextRequest,
+  ctx: unknown // <– workaround to avoid the RouteContext typing bug
+) {
+  const { params } = ctx as { params: { id: string } }; // safely cast context
 
   const ticketsData = await getTicketsData();
+  const { id } = await params;
 
-  if (params.id) {
-    const ticket = ticketsData.find((t) => t.id === params.id);
-
-    if (!ticket) {
-      return NextResponse.json({ error: "Ticket not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ ticket });
+  if (!id) {
+    return NextResponse.json({ error: "No ID is provided" }, { status: 400 });
   }
 
-  return NextResponse.json({ error: "No ID is provided" }, { status: 404 });
+  const ticket = ticketsData.find((t) => t.id === id);
+
+  if (!ticket) {
+    return NextResponse.json({ error: "Ticket not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({ ticket });
 }
 
 // export async function PUT(request: Request, { params }: RouteParams) {

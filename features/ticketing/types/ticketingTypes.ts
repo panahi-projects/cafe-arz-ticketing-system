@@ -160,7 +160,3 @@ export interface Mapper {
   key: string;
   values: Record<string | number, string | number | boolean>;
 }
-
-export interface RouteParams {
-  params: { id: string };
-}
