@@ -3,8 +3,12 @@ import GenericForm from "@/components/form/GenericForm";
 import { GenericFormProps } from "@/types";
 import { Box, Card } from "@mui/material";
 import React from "react";
+import { useTicketOperations } from "../hooks/useTicketOperations";
+import { useRouter } from "next/navigation";
 
 const TicketNew = () => {
+  const { createTicket } = useTicketOperations();
+  const router = useRouter();
   const formSchema: GenericFormProps = {
     schema: {
       submitButton: {
@@ -95,7 +99,7 @@ const TicketNew = () => {
         },
         {
           type: "text",
-          name: "message",
+          name: "content",
           label: "متن تیکت",
           value: "",
           multiline: true,
@@ -107,9 +111,16 @@ const TicketNew = () => {
     },
   };
 
-  const handleSubmit = (data: Record<string, unknown>) => {
+  const handleSubmit = async (data: Record<string, unknown>) => {
     if (data) {
-      console.log("Form Data: ", data);
+      try {
+        const res = await createTicket(data);
+        if (res?.id) {
+          router.push("/dashboard/tickets/list");
+        }
+      } catch (error) {
+        console.log("Error: ", error);
+      }
     }
   };
   return (

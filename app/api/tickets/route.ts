@@ -32,26 +32,26 @@ export async function GET(request: Request) {
   // Apply filters
   if (status) {
     filteredTickets = filteredTickets.filter(
-      (ticket) => ticket.status.key === status
+      (ticket) => ticket.status?.key === status
     );
   }
 
   if (priority) {
     filteredTickets = filteredTickets.filter(
-      (ticket) => ticket.priority.key === priority
+      (ticket) => ticket.priority?.key === priority
     );
   }
 
   if (fk_department_id) {
     filteredTickets = filteredTickets.filter(
-      (ticket) => ticket.fk_department.key.toString() === fk_department_id
+      (ticket) => ticket.fk_department?.key.toString() === fk_department_id
     );
   }
 
   // Text filters with regex matching
   if (ticket_id) {
     const regex = new RegExp(ticket_id, "i");
-    filteredTickets = filteredTickets.filter((ticket) =>
+    filteredTickets = filteredTickets?.filter((ticket) =>
       regex.test(ticket.ticket_id)
     );
   }
@@ -59,53 +59,55 @@ export async function GET(request: Request) {
   if (fk_user_id) {
     const regex = new RegExp(fk_user_id, "i");
     filteredTickets = filteredTickets.filter((ticket) =>
-      regex.test(ticket.fk_sender_id.toString())
+      regex.test(ticket?.fk_sender_id?.toString())
     );
   }
 
   if (name) {
     const regex = new RegExp(name, "i");
-    filteredTickets = filteredTickets.filter(
-      (ticket) =>
-        regex.test(ticket.user?.name || "") ||
-        regex.test(ticket.user?.first_name || "") ||
-        regex.test(ticket.user?.last_name || "")
-    );
+    filteredTickets = filteredTickets.filter((ticket) => {
+      const userName = ticket.user?.name || "";
+      const firstName = ticket.user?.first_name || "";
+      const lastName = ticket.user?.last_name || "";
+      return (
+        regex.test(userName) || regex.test(firstName) || regex.test(lastName)
+      );
+    });
   }
 
   if (mobile) {
     const regex = new RegExp(mobile, "i");
     filteredTickets = filteredTickets.filter(
-      (ticket) => ticket.user && regex.test(ticket.user.mobile)
+      (ticket) => ticket.user?.mobile && regex.test(ticket.user.mobile)
     );
   }
 
   if (email) {
     const regex = new RegExp(email, "i");
     filteredTickets = filteredTickets.filter(
-      (ticket) =>
-        ticket.user && ticket.user.email && regex.test(ticket.user.email)
+      (ticket) => ticket.user?.email && regex.test(ticket.user.email)
     );
   }
 
   if (national_code) {
     const regex = new RegExp(national_code, "i");
     filteredTickets = filteredTickets.filter(
-      (ticket) => ticket.user && regex.test(ticket.user.national_code)
+      (ticket) =>
+        ticket.user?.national_code && regex.test(ticket.user.national_code)
     );
   }
 
   if (content) {
     const regex = new RegExp(content, "i");
     filteredTickets = filteredTickets.filter((ticket) =>
-      regex.test(ticket.content)
+      regex.test(ticket.content || "")
     );
   }
 
   if (ip_address) {
     const regex = new RegExp(ip_address, "i");
     filteredTickets = filteredTickets.filter(
-      (ticket) => ticket.user && regex.test(ticket.user.ip)
+      (ticket) => ticket.user?.ip && regex.test(ticket.user.ip)
     );
   }
 
@@ -301,7 +303,41 @@ export async function POST(request: Request) {
   const ticketsData = await getTicketsData();
   const body = await request.json();
 
+  // Default values for required fields
+  const defaultValues = {
+    status: { key: "PENDING", label: "در حال بررسی" },
+    priority: { key: "MED", value: "متوسط" },
+    fk_department: { key: 2, value: "پشتیبانی" },
+    title: "تیکت جدید بدون عنوان",
+    content: "متن تیکت وارد نشده است",
+    user: {
+      id: Math.floor(Math.random() * 100) + 1,
+      name: `کاربر ${ticketsData.length + 1}`,
+      mobile: `0917${Math.floor(1000000 + Math.random() * 9000000)}`,
+      ip: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(
+        Math.random() * 255
+      )}`,
+      avatar: `https://storage.cafearz.com/wp-content/uploads/avatars/${
+        Math.floor(Math.random() * 10) + 1
+      }.png`,
+    },
+    fk_sender_id: Math.floor(Math.random() * 100) + 1,
+    lock: false,
+    seen: 0,
+    replies: [],
+    fk_order_id: null,
+    fk_agent_id: null,
+    user_info: {
+      is_admin: false,
+      name: `کاربر ${ticketsData.length + 1}`,
+      avatar: `https://storage.cafearz.com/wp-content/uploads/avatars/${
+        Math.floor(Math.random() * 5) + 1
+      }.png`,
+    },
+  };
+
   const newTicket: Ticket = {
+    ...defaultValues,
     ...body,
     id: (ticketsData.length + 1).toString(),
     ticket_id: `TKT-${1000 + ticketsData.length + 1}`,

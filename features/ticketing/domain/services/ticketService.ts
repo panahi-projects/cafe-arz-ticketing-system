@@ -1,4 +1,4 @@
-import { TicketListResponse, TicketResponse } from "../../types";
+import { Ticket, TicketListResponse, TicketResponse } from "../../types";
 import { TicketRepository } from "../repositories/ticketRepository";
 
 export class TicketService {
@@ -16,5 +16,12 @@ export class TicketService {
     config?: { signal?: AbortSignal }
   ): Promise<TicketResponse> {
     return this.repository.getTicketById(id, config);
+  }
+
+  async createTicket(
+    payload: unknown,
+    config?: { signal?: AbortSignal }
+  ): Promise<Partial<Ticket>> {
+    return this.repository.createTicket(payload, config);
   }
 }

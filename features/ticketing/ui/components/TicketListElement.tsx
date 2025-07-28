@@ -50,7 +50,7 @@ const TicketListElement = ({
     {
       id: "department",
       label: "دپارتمان",
-      render: (row) => row.department || "-",
+      render: (row) => row.fk_department?.value || "-",
     },
     {
       id: "title",

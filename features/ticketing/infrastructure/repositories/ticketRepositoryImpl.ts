@@ -1,6 +1,6 @@
 import { TicketApi } from "../../api/endpoints";
 import { TicketRepository } from "../../domain/repositories/ticketRepository";
-import { TicketListResponse, TicketResponse } from "../../types";
+import { Ticket, TicketListResponse, TicketResponse } from "../../types";
 
 export class TicketRepositoryImpl implements TicketRepository {
   async getTickets(
@@ -23,6 +23,18 @@ export class TicketRepositoryImpl implements TicketRepository {
       return response;
     } catch (error) {
       throw new Error(`Failed to fetch ticket: ${id}`);
+    }
+  }
+
+  async createTicket(
+    payload: unknown,
+    config?: { signal?: AbortSignal }
+  ): Promise<Partial<Ticket>> {
+    try {
+      const response = await TicketApi.createTicket(payload, config);
+      return response;
+    } catch (error) {
+      throw new Error(`Failed to create ticket`);
     }
   }
 }

@@ -30,8 +30,15 @@ const STATUS_CONFIG = {
   },
 } as const;
 
-const TicketStatusChip = ({ item, size = "md", sx }: TicketStatusChipProps) => {
-  const colorStyle = useMemo(() => STATUS_CONFIG[item.key], [item.key]);
+const TicketStatusChip = ({
+  item = { key: "PENDING", label: "در حال بررسی" },
+  size = "md",
+  sx,
+}: TicketStatusChipProps) => {
+  const colorStyle = useMemo(
+    () => STATUS_CONFIG[item?.key || "PENDING"],
+    [item?.key]
+  );
   return (
     <Chip
       label={item.label}

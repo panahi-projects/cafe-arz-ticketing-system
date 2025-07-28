@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useTicketService } from "../../context/TicketServiceContext";
-import { TicketListResponse, TicketResponse } from "../../types";
+import { Ticket, TicketListResponse, TicketResponse } from "../../types";
 
 export const useTicketOperations = () => {
   const ticketService = useTicketService();
@@ -17,6 +17,13 @@ export const useTicketOperations = () => {
   // Cache state for single ticket
   const [ticketCache, setTicketCache] = useState<{
     data: TicketResponse | null;
+    loading: boolean;
+    error: Error | null;
+  }>({ data: null, loading: false, error: null });
+
+  // State for create ticket operation
+  const [createCache, setCreateCache] = useState<{
+    data: Partial<Ticket> | null;
     loading: boolean;
     error: Error | null;
   }>({ data: null, loading: false, error: null });
@@ -92,6 +99,32 @@ export const useTicketOperations = () => {
     [ticketService]
   );
 
+  const createTicket = useCallback(
+    async (payload: unknown, signal?: AbortSignal) => {
+      try {
+        setCreateCache({ data: null, loading: true, error: null });
+
+        const result = await ticketService.createTicket(payload, { signal });
+
+        setCreateCache({
+          data: result,
+          loading: false,
+          error: null,
+        });
+
+        return result;
+      } catch (err) {
+        if (!signal?.aborted) {
+          const error =
+            err instanceof Error ? err : new Error("Failed to create ticket");
+          setCreateCache({ data: null, error, loading: false });
+          throw error;
+        }
+      }
+    },
+    [ticketService]
+  );
+
   const useTickets = (page: number, pageSize: number, filters = {}) => {
     useEffect(() => {
       const abortController = new AbortController();
@@ -124,5 +157,15 @@ export const useTicketOperations = () => {
     };
   };
 
-  return { useTickets, useTicketById };
+  const resetCreateTicket = useCallback(() => {
+    setCreateCache({ data: null, loading: false, error: null });
+  }, []);
+
+  return {
+    useTickets,
+    useTicketById,
+    createTicket,
+    createTicketState: createCache,
+    resetCreateTicket,
+  };
 };

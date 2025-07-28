@@ -1,4 +1,4 @@
-import { TicketListResponse, TicketResponse } from "../types";
+import { Ticket, TicketListResponse, TicketResponse } from "../types";
 import { ticketingApi } from "./api-factory";
 
 export const TicketApi = {
@@ -9,6 +9,10 @@ export const TicketApi = {
     }),
   getTicketById: (id: string, config?: { signal?: AbortSignal }) =>
     ticketingApi.get<TicketResponse>(`/tickets/${id}`, {
+      signal: config?.signal,
+    }),
+  createTicket: (payload: unknown, config?: { signal?: AbortSignal }) =>
+    ticketingApi.post<Partial<Ticket>>(`/tickets`, payload, {
       signal: config?.signal,
     }),
 };
