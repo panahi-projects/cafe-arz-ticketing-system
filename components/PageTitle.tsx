@@ -5,10 +5,10 @@ import { getPageTitle } from "@/lib/utils";
 import { Typography, useMediaQuery } from "@mui/material";
 import { usePathname } from "next/navigation";
 
-export const PageTitle = () => {
+export const PageTitle = ({ titleText }: { titleText?: string }) => {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width:768px)");
-  const title = getPageTitle(pathname, menuItems);
+  const title = titleText || getPageTitle(pathname, menuItems);
 
   if (!title) return null;
 

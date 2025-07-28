@@ -41,9 +41,16 @@ export interface HeaderAction {
   color?: ColorVariants;
 }
 
+export interface LayoutConfig {
+  headerAction?: HeaderAction | null;
+  showBreadcrumbs?: boolean;
+  showPageTitle?: boolean;
+  pageTitle?: string;
+}
+
 export interface LayoutContextValue {
-  headerAction: HeaderAction | null;
-  setHeaderAction: (action: HeaderAction | null) => void;
+  layoutConfig: LayoutConfig;
+  setLayoutConfig: (config: LayoutConfig) => void;
 }
 
 export interface HeaderMenuProps {

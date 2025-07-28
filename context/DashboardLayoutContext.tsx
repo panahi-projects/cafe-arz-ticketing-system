@@ -1,24 +1,29 @@
 "use client";
-
-import { HeaderAction, LayoutContextValue } from "@/types";
+import { LayoutConfig, LayoutContextValue } from "@/types";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 const LayoutContext = createContext<LayoutContextValue>({
-  headerAction: null,
-  setHeaderAction: () => {},
+  layoutConfig: {},
+  setLayoutConfig: () => {},
 });
 
 export const useLayoutContext = () => useContext(LayoutContext);
 
 export const DashboardLayoutProvider = ({
   children,
+  defaultConfig = {},
 }: {
   children: ReactNode;
+  defaultConfig?: LayoutConfig;
 }) => {
-  const [headerAction, setHeaderAction] = useState<HeaderAction | null>(null);
+  const [layoutConfig, setLayoutConfig] = useState<LayoutConfig>({
+    showBreadcrumbs: true,
+    showPageTitle: true,
+    ...defaultConfig,
+  });
 
   return (
-    <LayoutContext.Provider value={{ headerAction, setHeaderAction }}>
+    <LayoutContext.Provider value={{ layoutConfig, setLayoutConfig }}>
       {children}
     </LayoutContext.Provider>
   );

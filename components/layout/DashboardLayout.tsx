@@ -9,7 +9,13 @@ import { Plus } from "@/lib/icons";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useMediaQuery("(max-width:768px)");
-  const { headerAction } = useLayoutContext();
+  const { layoutConfig } = useLayoutContext();
+  const {
+    headerAction,
+    showBreadcrumbs = true,
+    showPageTitle = true,
+    pageTitle,
+  } = layoutConfig;
 
   return (
     <Box
@@ -46,9 +52,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             justifyContent={"space-between"}
             alignItems={"center"}
           >
-            <Box>
-              <PageTitle />
-            </Box>
+            {showPageTitle && (
+              <Box>
+                <PageTitle titleText={pageTitle} />
+              </Box>
+            )}
             <Box>
               {headerAction && (
                 <Button
@@ -70,7 +78,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               )}
             </Box>
           </Box>
-          <Breadcrumbs separator="." />
+          {showBreadcrumbs && <Breadcrumbs separator="." />}
           {children}
         </Box>
       </Box>

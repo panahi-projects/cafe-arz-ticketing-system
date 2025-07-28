@@ -7,17 +7,19 @@ import { useEffect } from "react";
 
 const TicketListPage = () => {
   const router = useRouter();
-  const { setHeaderAction } = useLayoutContext();
+  const { setLayoutConfig } = useLayoutContext();
 
   useEffect(() => {
-    setHeaderAction({
-      label: "تیکت جدید",
-      icon: <Plus opacity={1} />,
-      onClick: () => router.push("/dashboard/tickets/new"),
+    setLayoutConfig({
+      headerAction: {
+        label: "تیکت جدید",
+        icon: <Plus opacity={1} />,
+        onClick: () => router.push("/dashboard/tickets/new"),
+      },
     });
 
-    return () => setHeaderAction(null);
-  }, [setHeaderAction, router]);
+    return () => setLayoutConfig({});
+  }, [setLayoutConfig, router]);
 
   return <TicketsList />;
 };
