@@ -53,6 +53,14 @@ export const FormTextField = ({ field, error }: FormFieldProps) => {
                 zIndex: 9,
               },
             }}
+            FormHelperTextProps={{
+              sx: {
+                textAlign: "right",
+                marginRight: 0,
+                marginLeft: "auto",
+                width: "fit-content",
+              },
+            }}
           />
         )}
       />

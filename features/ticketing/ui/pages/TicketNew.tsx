@@ -39,6 +39,7 @@ const TicketNew = () => {
           value: "",
           grid: { md: 6 },
           order: 1,
+          isRequired: true,
         },
         {
           type: "select",
@@ -61,6 +62,7 @@ const TicketNew = () => {
           ],
           grid: { md: 6 },
           order: 2,
+          isRequired: true,
         },
         {
           type: "select",
@@ -75,6 +77,7 @@ const TicketNew = () => {
           ],
           grid: { md: 4 },
           order: 3,
+          isRequired: true,
         },
         {
           type: "select",
@@ -88,6 +91,7 @@ const TicketNew = () => {
           ],
           grid: { md: 4 },
           order: 4,
+          isRequired: true,
         },
         {
           type: "text",
@@ -106,6 +110,7 @@ const TicketNew = () => {
           rows: 3,
           grid: { md: 12 },
           order: 6,
+          isRequired: true,
         },
       ],
     },

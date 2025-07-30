@@ -12,7 +12,7 @@ export const FormSelectField = ({ field, error }: FormFieldProps) => {
   const { control } = useFormContext();
 
   return (
-    <FormControl fullWidth error={!!error}>
+    <FormControl fullWidth error={!!error} sx={{ my: 0.5 }}>
       <InputLabel
         shrink
         sx={{
@@ -65,7 +65,18 @@ export const FormSelectField = ({ field, error }: FormFieldProps) => {
           </Select>
         )}
       />
-      {error && <FormHelperText>{error}</FormHelperText>}
+      {error && (
+        <FormHelperText
+          sx={{
+            textAlign: "right",
+            marginRight: 0,
+            marginLeft: "auto",
+            width: "fit-content",
+          }}
+        >
+          {error}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };

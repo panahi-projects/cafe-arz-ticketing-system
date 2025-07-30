@@ -28,6 +28,7 @@ export interface FormField {
   multiline?: boolean;
   rows?: number;
   order?: number;
+  isRequired?: boolean;
 }
 
 export type ButtonConfig = {
@@ -63,6 +64,7 @@ export type FormData = z.infer<ReturnType<typeof generateValidationSchema>>;
 export interface FormFieldProps {
   field: FormField;
   error?: string;
+  errorSx?: SxProps<Theme>;
 }
 export const generateValidationSchema = (
   fields: FormField[],
@@ -72,53 +74,117 @@ export const generateValidationSchema = (
 
   fields.forEach((field) => {
     if (field.type === "text") {
-      let validator = z.string().optional();
+      let validator = field.isRequired
+        ? z.string().min(1, `${field.label} اجباری است`)
+        : z.string().optional();
 
       if (strictValidation) {
         if (field.name === "email") {
-          validator = validator.refine(
-            (val) => !val || z.string().email().safeParse(val).success,
-            "فرمت ایمیل نامعتبر است"
-          );
+          validator = field.isRequired
+            ? z
+                .string()
+                .email("فرمت ایمیل نامعتبر است")
+                .min(1, `${field.label} اجباری است`)
+            : z.string().email("فرمت ایمیل نامعتبر است").optional();
         } else if (field.name === "mobile") {
-          validator = validator.refine(
-            (val) => !val || /^09\d{9}$/.test(val),
-            "فرمت موبایل نامعتبر است (مثال: 09123456789)"
-          );
+          validator = field.isRequired
+            ? z
+                .string()
+                .min(1, `${field.label} اجباری است`)
+                .refine(
+                  (val) => /^09\d{9}$/.test(val),
+                  "فرمت موبایل نامعتبر است (مثال: 09123456789)"
+                )
+            : z
+                .string()
+                .refine(
+                  (val) => !val || /^09\d{9}$/.test(val),
+                  "فرمت موبایل نامعتبر است (مثال: 09123456789)"
+                )
+                .optional();
         } else if (field.name === "national_code") {
-          validator = validator.refine(
-            (val) => !val || /^\d{10}$/.test(val),
-            "کد ملی باید 10 رقم باشد"
-          );
+          validator = field.isRequired
+            ? z
+                .string()
+                .min(1, `${field.label} اجباری است`)
+                .refine(
+                  (val) => /^\d{10}$/.test(val),
+                  "کد ملی باید 10 رقم باشد"
+                )
+            : z
+                .string()
+                .refine(
+                  (val) => !val || /^\d{10}$/.test(val),
+                  "کد ملی باید 10 رقم باشد"
+                )
+                .optional();
         } else if (field.name === "ip_address") {
-          validator = validator.refine(
-            (val) =>
-              !val ||
-              /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-                val
-              ),
-            "فرمت آدرس IP نامعتبر است"
-          );
+          validator = field.isRequired
+            ? z
+                .string()
+                .min(1, `${field.label} اجباری است`)
+                .refine(
+                  (val) =>
+                    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
+                      val
+                    ),
+                  "فرمت آدرس IP نامعتبر است"
+                )
+            : z
+                .string()
+                .refine(
+                  (val) =>
+                    !val ||
+                    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
+                      val
+                    ),
+                  "فرمت آدرس IP نامعتبر است"
+                )
+                .optional();
         }
       } else {
         // Basic type validation only
         if (field.name === "mobile" || field.name === "national_code") {
-          validator = validator.refine(
-            (val) => !val || /^\d*$/.test(val),
-            "فقط عدد مجاز است"
-          );
+          validator = field.isRequired
+            ? z
+                .string()
+                .min(1, `${field.label} اجباری است`)
+                .refine((val) => /^\d*$/.test(val), "فقط عدد مجاز است")
+            : z
+                .string()
+                .refine((val) => !val || /^\d*$/.test(val), "فقط عدد مجاز است")
+                .optional();
         }
       }
 
       schemaObj[field.name] = validator;
     } else if (field.type === "select") {
-      schemaObj[field.name] = z
-        .union([
-          z.string(),
-          z.number(),
-          z.array(z.union([z.string(), z.number()])),
-        ])
-        .optional();
+      if (field.isRequired) {
+        if ((field.attr as FormFieldAttributes)?.select_type === "multiple") {
+          schemaObj[field.name] = z
+            .array(z.union([z.string(), z.number()]))
+            .min(1, `${field.label} اجباری است`);
+        } else {
+          schemaObj[field.name] = z.union([z.string(), z.number()]).refine(
+            (val) => {
+              if (val === undefined || val === null) return false;
+              if (typeof val === "string") return val.trim().length > 0;
+              return true;
+            },
+            {
+              message: `${field.label} اجباری است`,
+            }
+          );
+        }
+      } else {
+        schemaObj[field.name] = z
+          .union([
+            z.string(),
+            z.number(),
+            z.array(z.union([z.string(), z.number()])),
+          ])
+          .optional();
+      }
     }
   });
 
