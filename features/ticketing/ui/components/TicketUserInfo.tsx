@@ -52,7 +52,9 @@ const TicketUserInfo = React.memo(({ user }: { user: Partial<UserInfo> }) => {
         </Box>
       </Box>
       {verificationTags && (
-        <Box sx={{ display: "flex", gap: 0.8 }}>{verificationTags}</Box>
+        <Box sx={{ display: "flex", gap: 0.8, flexWrap: "wrap" }}>
+          {verificationTags}
+        </Box>
       )}
     </Box>
   );

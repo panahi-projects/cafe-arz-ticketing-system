@@ -6,6 +6,7 @@ import {
   Card,
   Chip,
   Grid,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -213,19 +214,24 @@ const TicketDetailSummary = (user: Partial<UserInfo>) => {
               }}
             >
               {userDetails.map((item) => (
-                <Grid
-                  size={isTablet ? 12 : 6}
+                <Tooltip
+                  title={item.content}
                   key={item.title}
-                  sx={{
-                    minWidth: 0, // Important for grid items
-                  }}
+                  placement="bottom"
                 >
-                  <TicketUserDetails
-                    icon={item.icon}
-                    title={item.title}
-                    content={item.content}
-                  />
-                </Grid>
+                  <Grid
+                    size={isTablet ? 12 : 6}
+                    sx={{
+                      minWidth: 0, // Important for grid items
+                    }}
+                  >
+                    <TicketUserDetails
+                      icon={item.icon}
+                      title={item.title}
+                      content={item.content}
+                    />
+                  </Grid>
+                </Tooltip>
               ))}
             </Grid>
           </Box>

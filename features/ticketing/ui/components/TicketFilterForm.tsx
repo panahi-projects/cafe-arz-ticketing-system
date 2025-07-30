@@ -14,6 +14,9 @@ export default function TicketFilterForm({ onSuccess }: TicketFilterFormProps) {
   const filterSchema: GenericFormProps = {
     schema: {
       fields: filters,
+      submitButton: {
+        text: "جستجو",
+      },
     },
   };
 
